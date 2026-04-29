@@ -1,0 +1,55 @@
+<header
+    class="h-20 bg-white flex items-center justify-between px-4 md:px-8 border-b border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] shrink-0">
+    <div class="flex items-center gap-2 md:gap-4 overflow-hidden">
+        <button (click)="toggleSidebar()"
+            class="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500 hover:text-blue-600 active:scale-95 cursor-pointer">
+            <mat-icon>{{ layoutService.isSidebarCollapsed() ? 'menu' : 'menu_open' }}</mat-icon>
+        </button>
+
+        <div class="flex flex-col justify-center overflow-hidden">
+            <!-- User Info -->
+            <h2 class="text-[#13325B] font-bold text-[14px] md:text-[15px] leading-tight uppercase tracking-wide truncate">
+                Willians
+            </h2>
+            <p class="text-[11px] md:text-[12px] font-medium text-gray-400 mt-0.5 truncate max-w-[180px] sm:max-w-[300px] md:max-w-none"
+               title="Coordenadoria de Abastecimento Farmacêutico - CAF - SESAD">
+                Coordenadoria de Abastecimento Farmacêutico - CAF - SESAD
+            </p>
+        </div>
+    </div>
+
+    <!-- Desktop Actions -->
+    @if (!layoutService.isMobile()) {
+    <div class="flex items-center gap-6 text-[#13325B] font-medium text-[13px]">
+        <button
+            class="flex items-center gap-2 hover:text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md transition-all active:scale-95">
+            <mat-icon class="text-[18px] w-[18px] h-[18px]">person</mat-icon>
+            Trocar senha
+        </button>
+        <div class="w-px h-6 bg-gray-200"></div>
+        <button
+            class="flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-2 rounded-md transition-all active:scale-95">
+            <mat-icon class="text-[18px] w-[18px] h-[18px]">logout</mat-icon>
+            Sair
+        </button>
+    </div>
+    } @else {
+    <!-- Mobile Actions (Menu) -->
+    <button [matMenuTriggerFor]="userMenu"
+        class="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500 hover:text-blue-600 active:scale-95">
+        <mat-icon>settings</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu" xPosition="before" class="mt-2 !rounded-xl !shadow-2xl border border-gray-100">
+        <button mat-menu-item class="!flex !items-center !gap-2 text-[#13325B] font-medium text-[13px]">
+            <mat-icon class="!text-[18px] !w-5 !h-5 text-gray-500">person</mat-icon>
+            <span>Trocar senha</span>
+        </button>
+        <div class="h-px bg-gray-100 my-1 mx-2"></div>
+        <button mat-menu-item class="!flex !items-center !gap-2 text-red-600 font-medium text-[13px]">
+            <mat-icon class="!text-[18px] !w-5 !h-5 text-red-500">logout</mat-icon>
+            <span>Sair</span>
+        </button>
+    </mat-menu>
+    }
+</header>

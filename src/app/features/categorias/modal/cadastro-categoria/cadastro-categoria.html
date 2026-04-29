@@ -1,0 +1,38 @@
+<div class="flex flex-col gap-3 p-6">
+    <div class="">
+        <h1 class="font-normal text-lg">Cadastrar
+            categoria</h1>
+    </div>
+    <z-card>
+        <!-- FORMULÁRIO DE CATEGORIA -->
+        <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <div class="flex flex-col items-start gap-0">
+                <z-form-field class="w-full">
+                    <label for="nome-categoria">Nome da Categoria</label>
+                    <input z-input type="text" id="nome-categoria" placeholder="Nome da categoria"
+                        formControlName="nome">
+                    <div class="gap-0 m-0 p-0"
+                        *ngIf="categoriaForm.get('nome')?.invalid && (categoriaForm.get('nome')?.touched || categoriaForm.get('nome')?.dirty)">
+                        <span class="text-red-600 text-[10px] mt-0 p-0"
+                            *ngIf="categoriaForm.get('nome')?.hasError('required')">
+                            Campo obrigatório
+                        </span>
+                        <span class="text-red-600 text-[10px] mt-0 p-0"
+                            *ngIf="categoriaForm.get('nome')?.hasError('minlength')">
+                            Campo deve ter pelo menos 3 caracteres
+                        </span>
+                        <span class="text-red-600 text-[10px] mt-0 p-0"
+                            *ngIf="categoriaForm.get('nome')?.hasError('maxlength')">
+                            Campo deve ter no máximo 100 caracteres
+                        </span>
+                    </div>
+                </z-form-field>
+                <div class="flex w-full gap-3 mt-3">
+                    <button z-button zSize="sm" type="submit" class="flex-1 mt-3 cursor-pointer">Salvar</button>
+                    <button z-button zSize="sm" type="button" zType="outline" class="flex-1 mt-3 cursor-pointer"
+                        (click)="onClose()">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </z-card>
+</div>

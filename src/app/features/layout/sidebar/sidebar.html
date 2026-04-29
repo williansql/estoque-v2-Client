@@ -1,0 +1,138 @@
+<aside
+    class="bg-[#13325B] text-blue-100 flex flex-col h-full shrink-0 shadow-xl z-30 transition-all duration-300 ease-in-out overflow-hidden"
+    [class.w-[260px]]="!layoutService.isSidebarCollapsed()"
+    [class.w-[80px]]="layoutService.isSidebarCollapsed() && !layoutService.isMobile()"
+    [class.w-0]="layoutService.isSidebarCollapsed() && layoutService.isMobile()"
+    [class.fixed]="layoutService.isMobile()"
+    [class.inset-y-0]="layoutService.isMobile()"
+    [class.left-0]="layoutService.isMobile()">
+
+    <!-- Logo Area -->
+    <div class="h-20 flex items-center px-6 border-b border-white/10 mt-1 shrink-0">
+        <div class="flex items-center gap-3 min-w-max">
+            <div
+                class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center border border-white/5 shadow-inner">
+                <img class="text-green-400 text-2xl" src="icone-estoque.png" alt="" />
+            </div>
+            @if (!layoutService.isSidebarCollapsed()) {
+            <div class="flex flex-col transition-opacity duration-300">
+                <span class="font-bold text-white text-[15px] tracking-wide leading-tight">SGI</span>
+                <span class="text-blue-200 text-[11px] font-medium tracking-wider uppercase leading-tight mt-0.5">
+                    Sistema de Estoque
+                </span>
+            </div>
+            }
+        </div>
+    </div>
+
+    <nav class="flex-1 py-6 overflow-y-auto w-full scrollbar-thin scrollbar-thumb-white/10">
+        @if (!layoutService.isSidebarCollapsed()) {
+        <div class="px-4 text-[10px] uppercase font-bold tracking-[0.15em] text-blue-300/60 mb-4 whitespace-nowrap">
+            Menu Principal
+        </div>
+        }
+
+        <ul class="flex flex-col space-y-1 w-full px-3">
+            <!-- Dashboard -->
+            <li class="hover:cursor-pointer">
+                <a routerLink="/dashboard" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
+                    #rlaDashboard="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
+                    <div [class.bg-green-500]="rlaDashboard.isActive"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
+                        [class.h-5]="rlaDashboard.isActive"></div>
+                    <mat-icon [class.text-green-400]="rlaDashboard.isActive"
+                        class="text-[20px] w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity">dashboard</mat-icon>
+                    @if (!layoutService.isSidebarCollapsed()) {
+                    <span class="font-medium text-[14px] transition-opacity duration-300">Dashboard</span>
+                    }
+                </a>
+            </li>
+
+            <!-- Categorias -->
+            <li class="hover:cursor-pointer">
+                <a routerLink="/categorias" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
+                    #rlaCategorias="routerLinkActive"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
+                    <div [class.bg-green-500]="rlaCategorias.isActive"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
+                        [class.h-5]="rlaCategorias.isActive"></div>
+                    <mat-icon [class.text-green-400]="rlaCategorias.isActive"
+                        class="text-[20px] w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity">category</mat-icon>
+                    @if (!layoutService.isSidebarCollapsed()) {
+                    <span class="font-medium text-[14px] transition-opacity duration-300">Categoria</span>
+                    }
+                </a>
+            </li>
+
+            <!-- Itens -->
+            <li class="hover:cursor-pointer">
+                <a routerLink="/itens" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
+                    #rlaItens="routerLinkActive"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
+                    <div [class.bg-green-500]="rlaItens.isActive"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
+                        [class.h-5]="rlaItens.isActive"></div>
+                    <mat-icon [class.text-green-400]="rlaItens.isActive"
+                        class="text-[20px] w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity">inventory_2</mat-icon>
+                    @if (!layoutService.isSidebarCollapsed()) {
+                    <span class="font-medium text-[14px] transition-opacity duration-300">Itens</span>
+                    }
+                </a>
+            </li>
+
+            <!-- Fornecedor -->
+            <li class="hover:cursor-pointer">
+                <a routerLink="/fornecedor" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
+                    #rlaFornecedor="routerLinkActive"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
+                    <div [class.bg-green-500]="rlaFornecedor.isActive"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
+                        [class.h-5]="rlaFornecedor.isActive"></div>
+                    <mat-icon [class.text-green-400]="rlaFornecedor.isActive"
+                        class="text-[20px] w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity">local_shipping</mat-icon>
+                    @if (!layoutService.isSidebarCollapsed()) {
+                    <span class="font-medium text-[14px] transition-opacity duration-300">Fornecedor</span>
+                    }
+                </a>
+            </li>
+
+            <!-- Pedidos -->
+            <li class="hover:cursor-pointer">
+                <a routerLink="/pedidos" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
+                    #rlaPedidos="routerLinkActive"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
+                    <div [class.bg-green-500]="rlaPedidos.isActive"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
+                        [class.h-5]="rlaPedidos.isActive"></div>
+                    <mat-icon [class.text-green-400]="rlaPedidos.isActive"
+                        class="text-[20px] w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity">schedule</mat-icon>
+                    @if (!layoutService.isSidebarCollapsed()) {
+                    <span class="font-medium text-[14px] transition-opacity duration-300">Pedidos</span>
+                    }
+                </a>
+            </li>
+
+            <!-- Movimentação -->
+            <li class="hover:cursor-pointer">
+                <a routerLink="/movimentacao" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
+                    #rlaMov="routerLinkActive"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
+                    <div [class.bg-green-500]="rlaMov.isActive"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
+                        [class.h-5]="rlaMov.isActive"></div>
+                    <mat-icon [class.text-green-400]="rlaMov.isActive"
+                        class="text-[20px] w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity">swap_horiz</mat-icon>
+                    @if (!layoutService.isSidebarCollapsed()) {
+                    <span class="font-medium text-[14px] transition-opacity duration-300">Movimentação</span>
+                    }
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+@if (layoutService.isMobile() && !layoutService.isSidebarCollapsed()) {
+<div (click)="layoutService.closeSidebar()"
+    class="fixed inset-0 bg-black/50 z-20 transition-opacity duration-300 animate-in fade-in"></div>
+}
