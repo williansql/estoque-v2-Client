@@ -1,0 +1,23 @@
+<div class="h-screen w-screen flex items-center justify-center bg-linear-to-tl from-[#13325b]/50 to-[#13325b]/80">
+    <z-card class=" max-w-[500px] shadow-2xl shadow-indigo-600/30">
+        <div class="flex flex-col items-center justify-center mb-4">
+            <img src="/icone-estoque.png" alt="Logo" class="w-15 h-15">
+            <span class="text-2xl font-bold text-slate-900">SGI - Estoque</span>
+            <span class="text-sm text-slate-500">Bem-vindo ao sistema de gestão de estoque</span>
+            <span class="text-sm text-slate-500">SESAD - Parnamirim/RN</span>
+        </div>
+        <div class="">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" action="" method="post" class="flex flex-col gap-3">
+                <z-form-field class="flex flex-col gap-1">
+                    <label class="text-slate-900 text-xs" for="login">Login</label>
+                    <input z-input formControlName="login" />
+                </z-form-field>
+                <z-form-field class="flex flex-col gap-1">
+                    <label class="text-slate-900 text-xs" for="password">Senha</label>
+                    <input z-input type="password" formControlName="password" />
+                </z-form-field>
+                <z-button type="submit" class="w-full mt-4" [zDisabled]="loginForm.invalid"
+                    (click)="onSubmit()">Login</z-button>
+            </form>
+        </div>
+    </z-card>

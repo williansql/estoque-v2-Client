@@ -1,10 +1,24 @@
 import { Routes } from '@angular/router';
-import { CadastroCategoriaComponent } from './features/categorias/modal/cadastro-categoria/cadastro-categoria.component';
-import { CategoriaListagemComponent } from './features/categorias/pages/listagem/categoria-listagem.component';
+import { authGuard, guestGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
     {
         path: '',
-        component: CategoriaListagemComponent,
+        pathMatch: 'full',
+        redirectTo: 'categorias',
     },
+    {
+        path: 'login',
+        canActivate: [guestGuard],
+        loadChildren: () => import('./core/auth/auth.route').then(m => m.AUTH_ROUTE)
+    },
+    {
+        path: 'categorias',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/categorias/categoria.route').then(m => m.CATEGORIA_ROUTES)
+    },
+    {
+        path: '**',
+        redirectTo: 'categorias'
+    }
 ];

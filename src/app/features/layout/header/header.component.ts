@@ -4,6 +4,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutService } from "../layout.service";
 import { CommonModule } from "@angular/common";
+import { AuthService } from "@/core/auth/auth.service";
 
 @Component({
     selector: 'app-header',
@@ -19,8 +20,13 @@ import { CommonModule } from "@angular/common";
 })
 export class HeaderComponent {
     protected layoutService = inject(LayoutService);
+    private readonly authService = inject(AuthService);
 
     toggleSidebar() {
         this.layoutService.toggleSidebar();
+    }
+
+    logout() {
+        this.authService.logout();
     }
 }

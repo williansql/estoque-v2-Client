@@ -1,32 +1,32 @@
-<div class="flex flex-col space-y-0 sm:p-6">
+<div class="flex flex-col gap-4 p-4 sm:p-6">
     <!-- CABEÇALHO -->
-    <div class="p-4">
+    <div>
         <h1 class="font-sans font-semibold text-lg sm:text-xl tracking-wider text-slate-800">
             {{ categoriaForm.get('id')?.value ? 'Editar' : 'Cadastrar' }} categoria
         </h1>
     </div>
 
     <z-card class="shadow-none sm:shadow-sm border-0 sm:border">
-        <!-- FORMULÁRIO DE CATEGORIA -->
+        <!-- FORMULÁRIO DE EDITAR CATEGORIA -->
         <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()" class="space-y-6">
-            <div class="flex flex-col">
-                <z-form-field class="flex flex-col mb-5 w-full">
+            <div class="flex flex-col gap-4">
+                <z-form-field class="w-full">
                     <label class="text-xs font-medium text-slate-600 mb-1 block" for="nome-categoria">
                         Nome da Categoria
                     </label>
                     <input z-input type="text" id="nome-categoria" placeholder="Ex: Refrigerados, Antropicos, Insumos"
-                        formControlName="name" class="w-full text-sm placeholder:text-xs" />
+                        formControlName="nome" class="w-full placeholder:text-xs text-sm" />
 
-                    @if (categoriaForm.get('name')?.invalid && (categoriaForm.get('name')?.touched ||
-                    categoriaForm.get('name')?.dirty)) {
-                    <div class="mt-0">
-                        @if (categoriaForm.get('name')?.hasError('required')) {
+                    @if (categoriaForm.get('nome')?.invalid && (categoriaForm.get('nome')?.touched ||
+                    categoriaForm.get('nome')?.dirty)) {
+                    <div class="mt-1">
+                        @if (categoriaForm.get('nome')?.hasError('required')) {
                         <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
                         }
-                        @if (categoriaForm.get('name')?.hasError('minlength')) {
+                        @if (categoriaForm.get('nome')?.hasError('minlength')) {
                         <span class="text-red-600 text-[10px] sm:text-xs">Mínimo de 3 caracteres</span>
                         }
-                        @if (categoriaForm.get('name')?.hasError('maxlength')) {
+                        @if (categoriaForm.get('nome')?.hasError('maxlength')) {
                         <span class="text-red-600 text-[10px] sm:text-xs">Máximo de 100 caracteres</span>
                         }
                     </div>

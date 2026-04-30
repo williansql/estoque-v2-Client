@@ -1,0 +1,52 @@
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable, signal } from "@angular/core";
+import { Observable, tap } from "rxjs";
+import { environment } from "src/environments/environment";
+import { ApiResponse } from "@/shared/models/api-response";
+import { CreateCategoriaDto, findAllCategoriasDto, GetCategoriaDto, UpdateCategoriaDto } from "./dto/categoria.dto";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class CategoriaService {
+
+    private readonly API = environment.api + '/categories';
+    private readonly http = inject(HttpClient);
+
+    // Global state for categories
+    private readonly _categorias = signal<GetCategoriaDto[]>([]);
+    readonly categorias = this._categorias.asReadonly();
+
+    readonly endpoints = {
+        id: (id: number) => `${this.API}/${id}`,
+        listar: this.API,
+        criar: this.API,
+        atualizar: (id: number) => `${this.API}/${id}`,
+        deletar: (id: number) => `${this.API}/${id}`,
+    };
+
+    findAllCategorias(data: any): Observable<ApiResponse<findAllCategoriasDto>> {
+        return this.http.get<ApiResponse<findAllCategoriasDto>>(this.endpoints.listar, {
+            params: data,
+        }).pipe(
+            tap(response => {
+                if (response.data && response.data.content) {
+                    this._categorias.set(response.data.content);
+                }
+            })
+        );
+    }
+
+    criarCategoria(data: CreateCategoriaDto): Observable<ApiResponse<GetCategoriaDto>> {
+        return this.http.post<ApiResponse<GetCategoriaDto>>(this.endpoints.criar, data);
+    }
+
+    atualizarCategoria(data: UpdateCategoriaDto): Observable<ApiResponse<GetCategoriaDto>> {
+        return this.http.put<ApiResponse<GetCategoriaDto>>(this.endpoints.atualizar(data.id), data);
+    }
+
+    deletarCategoria(id: number): Observable<ApiResponse<GetCategoriaDto>> {
+        return this.http.delete<ApiResponse<GetCategoriaDto>>(this.endpoints.deletar(id));
+    }
+
+}

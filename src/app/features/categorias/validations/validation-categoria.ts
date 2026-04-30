@@ -1,3 +1,4 @@
+//VALIDAÇÕES DO FORMULÁRIO DE CATEGORIA
 export function getErrorMessage(form: any, field: string) {
     const fieldError = form.get(field)?.errors;
 
