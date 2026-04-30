@@ -5,7 +5,7 @@ import { ZardInputDirective } from "@/shared/components/input";
 import { ModalService } from "@/shared/components/modal";
 import { Component, inject, OnInit } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { getErrorMessage } from "../../validations/validation-categoria";
+import { getErrorMessage } from "../../../../shared/utils/validations/validation-categoria";
 import { CommonModule } from "@angular/common";
 import { MODAL_DATA } from "@/shared/components/modal/modal.tokens";
 import { CreateCategoriaDto, GetCategoriaDto, UpdateCategoriaDto } from "../../dto/categoria.dto";
