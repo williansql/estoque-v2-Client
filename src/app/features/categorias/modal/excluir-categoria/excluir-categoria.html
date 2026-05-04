@@ -1,0 +1,27 @@
+<div class="flex flex-col gap-4 p-4 sm:p-6">
+  <!-- CABEÇALHO -->
+  <div>
+    <h1 class="font-sans font-semibold text-lg sm:text-xl tracking-wider text-slate-800">
+      Deletar categoria
+    </h1>
+  </div>
+
+  <!-- MESSAGE -->
+  <div class="flex flex-col gap-4">
+    <p class="text-md text-slate-600">
+      Tem certeza que deseja desativar a categoria <strong class="px-2 text-lg tracking-widest">{{ categoria?.name
+        }}</strong>?
+    </p>
+  </div>
+
+  <!-- BOTÕES -->
+  <div class="flex flex-col sm:flex-row w-full gap-3 mt-2">
+    <z-button zSize="sm" type="button" zType="destructive" class="w-full sm:flex-1 cursor-pointer"
+      (click)="excluir(categoria?.id)">
+      Desativar
+    </z-button>
+    <z-button zSize="sm" type="button" zType="outline" class="w-full sm:flex-1 cursor-pointer" (click)="onClose()">
+      Cancelar
+    </z-button>
+  </div>
+</div>

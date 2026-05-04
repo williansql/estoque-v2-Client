@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { CategoriaListagemComponent } from "./pages/listagem/categoria-listagem.component";
+import { ListaCategoriasComponent } from "./pages/listagem/lista-categorias.component";
 
 export const CATEGORIA_ROUTES: Routes = [
     {
         path: '',
-        component: CategoriaListagemComponent,
+        component: ListaCategoriasComponent,
     },
 ];
