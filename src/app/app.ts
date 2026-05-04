@@ -4,11 +4,14 @@ import { HeaderComponent } from "./features/layout/header/header.component";
 import { SidebarComponent } from "./features/layout/sidebar/sidebar.component";
 import { AuthService } from './core/auth/auth.service';
 import { LoginComponent } from "./core/auth/login/login.component";
+import { toast } from "ngx-sonner";
+
+import { ZardToastComponent } from './shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent, LoginComponent],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent, LoginComponent, ZardToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

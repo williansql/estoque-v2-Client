@@ -16,12 +16,13 @@ import { ModalRef } from './modal-ref';
 
       <!-- Modal Card -->
       <div 
-        class="relative bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 overflow-hidden w-full max-w-lg transform transition-all animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-300"
+        class="relative bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 flex flex-col w-full max-h-[90vh] transform transition-all animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-300"
         [style.width]="width"
-        [style.height]="height">
+        [style.maxWidth]="width || '32rem'"
+        [style.maxHeight]="height">
         
         <!-- Content Container -->
-        <div class="p-1">
+        <div class="flex-1 overflow-y-auto p-1 scrollbar-thin">
            <ng-container #contentHost></ng-container>
         </div>
       </div>

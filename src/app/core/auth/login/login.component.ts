@@ -7,6 +7,7 @@ import { ZardCardComponent } from "@/shared/components/card";
 import { ZardFormFieldComponent } from "@/shared/components/form";
 import { ZardInputDirective } from "@/shared/components/input";
 import { ZardButtonComponent } from "@/shared/components/button";
+import { toast } from "ngx-sonner";
 
 @Component({
     selector: 'app-login',
@@ -37,14 +38,19 @@ export class LoginComponent {
 
             return;
         }
-        this.authService.login(this.loginForm.value as AuthLoginDto).subscribe((response: any) => {
-            this.authService.setToken(response.data.token);
-            console.log("Usuário logado: ", response);
-            const token = this.authService.decodeToken();
-            console.log("Token decodificado: ", token);
-
-            this.router.navigate(['/categorias']);
+        this.authService.login(this.loginForm.value as AuthLoginDto).subscribe({
+            next: (response: any) => {
+                this.authService.setToken(response.data.token);
+                console.log("Usuário logado: ", response);
+                const token = this.authService.decodeToken();
+                console.log("Token decodificado: ", token);
+                this.router.navigate(['/categorias']);
+            },
+            error: (error) => {
+                toast.error(`Erro ao fazer login: ${error.error.message}`);
+            }
         });
+
     }
 
 }

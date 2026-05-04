@@ -5,14 +5,16 @@
       <h2 class="text-2xl font-bold text-slate-800">Categorias</h2>
       <p class="text-slate-500 text-sm">Gerencie as categorias de produtos do seu estoque.</p>
     </div>
-    <z-button (click)="openModal()" class="w-full sm:w-auto">
-      Adicionar Categoria
-    </z-button>
+    <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+      <z-button (click)="openModal()" class="w-full sm:w-auto cursor-pointer hover:opacity-80 transition-colors">
+        Adicionar Categoria
+      </z-button>
+    </div>
   </div>
 
   <!-- CONTENT -->
   <div class="w-full">
-    @if (categorias().length > 0) {
+    @if (listCategorias().length > 0) {
     <!-- DESKTOP TABLE VIEW -->
     <div class="hidden sm:block">
       <z-card>
@@ -25,12 +27,13 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
-              @for (categoria of categorias(); track categoria.id) {
+              @for (categoria of listCategorias(); track categoria.id) {
               <tr class="hover:bg-slate-50/80 transition-colors group">
                 <td class="p-4 text-slate-600 font-normal w-5/6">{{ categoria.name }}</td>
                 <td class="p-4 w-1/6">
                   <div class="flex gap-2 justify-end">
-                    <z-button zSize="sm" zType="secondary" class="cursor-pointer opacity-80 hover:opacity-100"
+                    <z-button zSize="sm" zType="secondary"
+                      class="cursor-pointer opacity-80 hover:text-white hover:bg-[#13325b/70]"
                       (click)="openModal(categoria)">
                       Editar
                     </z-button>
@@ -46,12 +49,22 @@
             </tbody>
           </table>
         </div>
+        <div class="p-4 border-t border-slate-100 flex justify-center justify-self-center gap-4 sm:justify-end">
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-slate-500 whitespace-nowrap">Itens por página:</span>
+            <input type="number" [ngModel]="pageSize()"
+              (ngModelChange)="pageSize.set($event); pageIndex.set(1); getAllCategorias()"
+              class="w-16 px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-400" />
+          </div>
+          <z-pagination [zPageIndex]="pageIndex()" [zTotal]="totalPages()"
+            (zPageIndexChange)="pageIndex.set($event); getAllCategorias()" />
+        </div>
       </z-card>
     </div>
 
     <!-- MOBILE CARD VIEW -->
     <div class="flex flex-col gap-3 sm:hidden">
-      @for (categoria of categorias(); track categoria.id) {
+      @for (categoria of listCategorias(); track categoria.id) {
       <z-card class="p-4">
         <div class="flex flex-col gap-4">
           <div class="flex items-center justify-between">
@@ -71,6 +84,16 @@
         </div>
       </z-card>
       }
+      <div class="mt-4 flex flex-col sm:flex-row justify-center justify-self-center gap-4">
+        <z-pagination [zPageIndex]="pageIndex()" [zTotal]="totalPages()"
+          (zPageIndexChange)="pageIndex.set($event); getAllCategorias()" />
+        <div class="flex items-center justify-center gap-2">
+          <span class="text-sm text-slate-500 whitespace-nowrap">Itens por página:</span>
+          <input type="number" [ngModel]="pageSize()"
+            (ngModelChange)="pageSize.set($event); pageIndex.set(1); getAllCategorias()"
+            class="w-16 px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-400" />
+        </div>
+      </div>
     </div>
     } @else {
     <!-- EMPTY STATE (Shared) -->

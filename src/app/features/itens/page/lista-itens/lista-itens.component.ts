@@ -9,9 +9,14 @@ import { EditarItemComponent } from '../../modal/editar-item/editar-item.compone
 import { ExcluirItensComponent } from '../../modal/excluir-item/excluir-item.component';
 import { DetalhesItensComponent } from '../../modal/detalhes-itens/detalhes-item.component';
 
+import { ZardPaginationComponent } from '@/shared/components/pagination';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { CadastroItensComponent } from '../../modal/cadastro-item/cadastro-item.component';
+
 @Component({
   selector: 'app-lista-itens',
-  imports: [ZardButtonComponent, ZardCardComponent],
+  imports: [ZardButtonComponent, ZardCardComponent, ZardPaginationComponent, FormsModule, CommonModule],
   templateUrl: './lista-itens.html',
 })
 export class ListaItensComponent {
@@ -20,20 +25,33 @@ export class ListaItensComponent {
   private readonly authService = inject(AuthService);
 
   listItens = signal<GetItemDto[]>([]);
+  pageIndex = signal<number>(1);
+  pageSize = signal<number>(10);
+  totalPages = signal<number>(1);
+  totalElements = signal<number>(0);
 
   // Example of a computed signal for derived data
   ngOnInit(): void {
     this.getAllItens();
   }
 
-  getAllItens(params?: any) {
+  getAllItens() {
     const token: any = this.authService.decodeToken();
     const organogramId = token?.organogramId;
 
-    // Correctly passing the organogramId as a parameter
-    this.itensService.findAllItens({ ...params, organogramId }).subscribe({
+    const params = {
+      page: this.pageIndex() - 1, // API usually uses 0-based index
+      size: this.pageSize(),
+      organogramId
+    };
+
+    this.itensService.findAllItens(params).subscribe({
       next: (response: any) => {
-        this.listItens.set(response.data.content);
+        if (response.data) {
+          this.listItens.set(response.data.content);
+          this.totalPages.set(response.data.pagination.numberOfPages);
+          this.totalElements.set(response.data.pagination.totalNumberOfElements);
+        }
       },
       error: (err: any) => {
         console.error('Erro ao buscar itens:', err);
@@ -65,5 +83,13 @@ export class ListaItensComponent {
         data: itens,
       })
       .subscribe(() => console.log('Itens excluído: ', itens));
+  }
+
+  openModalCadastro() {
+    this.modalService.open(CadastroItensComponent, {
+      width: 'min(95vw, 1000px)',
+      height: '70dvh',
+      disableClose: true,
+    });
   }
 }

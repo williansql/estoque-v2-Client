@@ -25,16 +25,8 @@ export class ItensService {
     deletar: (id: number) => `${this.API}/${id}`,
   };
 
-  findAllItens(data: any): Observable<ApiResponse<findAllItensDto>> {
-    return this.http.get<ApiResponse<findAllItensDto>>(this.endpoints.listar, {
-      params: data,
-    }).pipe(
-      tap(response => {
-        if (response.data && response.data.content) {
-          this._itens.set(response.data.content);
-        }
-      })
-    );
+  findAllItens(data: any): Observable<findAllItensDto> {
+    return this.http.get<findAllItensDto>(this.endpoints.listar, { params: data });
   }
 
   criarItem(data: CreateItemDto): Observable<ApiResponse<GetItemDto>> {

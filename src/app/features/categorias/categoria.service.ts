@@ -25,16 +25,8 @@ export class CategoriaService {
         deletar: (id: number) => `${this.API}/${id}`,
     };
 
-    findAllCategorias(data: any): Observable<ApiResponse<findAllCategoriasDto>> {
-        return this.http.get<ApiResponse<findAllCategoriasDto>>(this.endpoints.listar, {
-            params: data,
-        }).pipe(
-            tap(response => {
-                if (response.data && response.data.content) {
-                    this._categorias.set(response.data.content);
-                }
-            })
-        );
+    findAllCategorias(data: any): Observable<findAllCategoriasDto> {
+        return this.http.get<findAllCategoriasDto>(this.endpoints.listar, { params: data })
     }
 
     criarCategoria(data: CreateCategoriaDto): Observable<ApiResponse<GetCategoriaDto>> {

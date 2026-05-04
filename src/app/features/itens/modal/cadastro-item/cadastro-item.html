@@ -1,0 +1,260 @@
+<div class="flex flex-col space-y-0 sm:p-6">
+    <!-- CABEÇALHO -->
+    <div class="p-4">
+        <h1 class="font-sans font-semibold text-lg sm:text-xl tracking-wider text-slate-800">
+            {{ itemForm.get('id')?.value ? 'Editar' : 'Cadastrar' }} Item
+        </h1>
+        <span class="text-sm text-slate-600">Cadastre seus itens aqui</span>
+        <p class="text-[10px] text-slate-500 mt-4">
+            <strong class="text-red-400 mr-1">*</strong> Campos obrigatórios
+        </p>
+    </div>
+
+    <z-card class="shadow-none sm:shadow-sm border-0 sm:border">
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <div class="flex flex-col gap-4">
+                <!-- LINHA 1: Nome do Item + Categoria -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <z-form-field class="flex flex-col w-full gap-0">
+                        <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block" for="name">
+                            Nome do Item
+                        </label>
+                        <input z-input type="text" id="name" placeholder="Ex: Leite Integral" formControlName="name"
+                            class="w-full text-sm placeholder:text-xs" />
+                        @if (itemForm.get('name')?.invalid && (itemForm.get('name')?.touched ||
+                        itemForm.get('name')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('name')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                            @if (itemForm.get('name')?.hasError('minlength')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Mínimo de 3 caracteres</span>
+                            }
+                        </div>
+                        }
+                    </z-form-field>
+                    <z-form-field class="flex flex-col w-full gap-0">
+                        <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block"
+                            for="category">
+                            Categoria
+                        </label>
+                        <input z-input type="text" id="category" placeholder="Ex: Alimentício"
+                            formControlName="category" class="w-full text-sm placeholder:text-xs" />
+                        @if (itemForm.get('category')?.invalid && (itemForm.get('category')?.touched ||
+                        itemForm.get('category')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('category')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                        </div>
+                        }
+                    </z-form-field>
+                </div>
+
+
+                <!-- LINHA 2: Descrição -->
+                <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+
+                    <z-form-field class="flex flex-col w-full gap-0">
+                        <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block"
+                            for="description">
+                            Descrição <strong class="text-red-600 text-[10px] sm:text-[10px] font-normal"> (Máximo 200
+                                caracteres)</strong>
+                        </label>
+                        <textarea z-input type="text" rows="3" id="description" placeholder="Descrição do item"
+                            formControlName="description" class="w-full text-sm placeholder:text-xs"></textarea>
+                        <div class="flex justify-between">
+                            @if (itemForm.get('description')?.invalid && (itemForm.get('description')?.touched ||
+                            itemForm.get('description')?.dirty)) {
+                            <div class="mt-0">
+                                @if (itemForm.get('description')?.hasError('required')) {
+                                <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                                }
+                                @if (itemForm.get('description')?.hasError('maxlength')) {
+                                <span class="text-red-600 text-[10px] sm:text-xs">Máximo de 200 caracteres</span>
+                                }
+                            </div>
+                            }
+                            <span class="text-xs text-slate-500">{{ itemForm.get('description')?.value?.length || 0
+                                }}/200</span>
+                        </div>
+                    </z-form-field>
+                </div>
+
+                <!-- LINHA 3: Código de barras + Estoque mínimo -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <z-form-field class="flex flex-col w-full gap-0">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="barcode">
+                            Código de Barras
+                        </label>
+                        <input z-input type="text" id="barcode" placeholder="Ex: 7891234567890"
+                            formControlName="barcode" class="w-full text-sm placeholder:text-xs" />
+                        @if (itemForm.get('barcode')?.invalid && (itemForm.get('barcode')?.touched ||
+                        itemForm.get('barcode')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('barcode')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                        </div>
+                        }
+                    </z-form-field>
+
+                    <z-form-field class="flex flex-col w-full gap-0">
+                        <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block"
+                            for="minQuantity">
+                            Quantidade Mínima (Estoque)
+                        </label>
+                        <input z-input type="number" id="minQuantity" placeholder="Ex: 5" formControlName="minQuantity"
+                            class="w-full text-sm placeholder:text-xs" />
+                        @if (itemForm.get('minQuantity')?.invalid && (itemForm.get('minQuantity')?.touched ||
+                        itemForm.get('minQuantity')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('minQuantity')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                            @if (itemForm.get('minQuantity')?.hasError('min')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">O valor mínimo é 1</span>
+                            }
+                        </div>
+                        }
+                    </z-form-field>
+
+
+                </div>
+
+                <!-- LINHA 4: Observações + Preço de Compra -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="observations">
+                            Observações
+                        </label>
+                        <input z-input type="text" id="observations" placeholder="Observações adicionais"
+                            formControlName="observations" class="w-full text-sm placeholder:text-xs" />
+                    </z-form-field>
+
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="buyPrice">
+                            Preço de Compra
+                        </label>
+                        <input z-input type="number" id="buyPrice" placeholder="0,00" step="0.01"
+                            formControlName="buyPrice" class="w-full text-sm placeholder:text-xs" />
+                    </z-form-field>
+                </div>
+
+                <!-- LINHA 5: Preço de Venda + Unidade de Medida -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureEnum">
+                            Unidade de Medida
+                        </label>
+                        <z-select z-input id="unitMeasureEnum" formControlName="unitMeasureEnum" class="w-full text-sm">
+                            <z-select-item zValue="">Selecione...</z-select-item>
+                            <z-select-item zValue="UN">Unidade</z-select-item>
+                            <z-select-item zValue="KG">Quilograma</z-select-item>
+                            <z-select-item zValue="L">Litro</z-select-item>
+                            <z-select-item zValue="M">Metro</z-select-item>
+                            <z-select-item zValue="CX">Caixa</z-select-item>
+                        </z-select>
+                    </z-form-field>
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureQtd">
+                            Quantidade por Unidade
+                        </label>
+                        <input z-input type="number" id="unitMeasureQtd" placeholder="Ex: 12" step="1"
+                            formControlName="unitMeasureQtd" class="w-full text-sm placeholder:text-xs" />
+                    </z-form-field>
+                </div>
+
+                <!-- LINHA 6: Quantidade por Unidade + Quantidade Mínima -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                </div>
+
+                <!-- LINHA 7: Categoria + Tipo do Item -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="typeItem">
+                            Tipo do Item
+                        </label>
+                        <z-select z-input id="typeItem" formControlName="typeItem" class="w-full text-sm">
+                            <z-select-item zValue="">Selecione um tipo</z-select-item>
+                            <z-select-item zValue="PRODUTO">Produto</z-select-item>
+                            <z-select-item zValue="SERVICO">Serviço</z-select-item>
+                            <z-select-item zValue="INSUMO">Insumo</z-select-item>
+                        </z-select>
+                        @if (itemForm.get('typeItem')?.invalid && (itemForm.get('typeItem')?.touched ||
+                        itemForm.get('typeItem')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('typeItem')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                        </div>
+                        }
+                    </z-form-field>
+                </div>
+
+                <!-- LINHA 8: Perecível + CATMAT -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <z-form-field class="flex flex-row items-center gap-3 w-full">
+                        <input type="checkbox" id="perecivel" formControlName="perecivel"
+                            class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
+                        <label class="text-xs font-medium text-slate-600" for="perecivel">
+                            Perecível
+                        </label>
+                    </z-form-field>
+
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="catmat">
+                            CATMAT
+                        </label>
+                        <input z-input type="text" id="catmat" placeholder="Ex: 12345" formControlName="catmat"
+                            class="w-full text-sm placeholder:text-xs" />
+                        @if (itemForm.get('catmat')?.invalid && (itemForm.get('catmat')?.touched ||
+                        itemForm.get('catmat')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('catmat')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                        </div>
+                        }
+                    </z-form-field>
+                </div>
+
+                <!-- LINHA 9: ID do Catálogo + Organograma -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="catalogItemId">
+                            ID do Catálogo
+                        </label>
+                        <input z-input type="number" id="catalogItemId" placeholder="Número do catálogo"
+                            formControlName="catalogItemId" class="w-full text-sm placeholder:text-xs" />
+                    </z-form-field>
+
+                    <z-form-field class="flex flex-col w-full">
+                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="organogram">
+                            Organograma
+                        </label>
+                        <input z-input type="number" id="organogram" placeholder="ID do organograma"
+                            formControlName="organogram" class="w-full text-sm placeholder:text-xs" />
+                    </z-form-field>
+                </div>
+
+                <!-- BOTÕES -->
+                <div class="flex flex-col sm:flex-row w-full gap-3 mt-6">
+                    <z-button zSize="sm" type="submit" class="w-full sm:flex-1 cursor-pointer" (click)="onSubmit()">
+                        Salvar
+                    </z-button>
+                    <z-button zSize="sm" type="button" zType="outline" class="w-full sm:flex-1 cursor-pointer"
+                        (click)="onClose()">
+                        Cancelar
+                    </z-button>
+                </div>
+            </div>
+        </form>
+    </z-card>
+</div>
