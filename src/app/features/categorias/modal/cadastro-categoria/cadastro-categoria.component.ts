@@ -35,6 +35,7 @@ export class CadastroCategoriaComponent implements OnInit {
   public readonly data = inject<GetCategoriaDto | null>(MODAL_DATA);
 
   categoriaForm = this.fb.group({
+    id: [''],
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
   });
 
@@ -65,14 +66,16 @@ export class CadastroCategoriaComponent implements OnInit {
     if (this.data) {
       // Update
       const dto: UpdateCategoriaDto = {
-        id: this.data.id,
+        id: Number(this.data.id),
         name: this.categoriaForm.get('name')?.value ?? '',
       };
       this.categoriaService.atualizarCategoria(dto).subscribe({
         next: () => {
-          this.refreshAndClose(organogramId);
+          toast.success(`Categoria ${dto.name} atualizada com sucesso!`);
+          this.categoriaService.refresh();
+          this.modalService.close();
         },
-        error: (err) => console.error('Erro ao atualizar categoria:', err),
+        error: (err) => toast.error(`Erro ao atualizar categoria: ${err.error.message}`)
       });
     } else {
       // Create
@@ -81,22 +84,17 @@ export class CadastroCategoriaComponent implements OnInit {
       };
       this.categoriaService.criarCategoria(dto).subscribe({
         next: () => {
-          this.refreshAndClose(organogramId);
           toast.success(`Categoria ${dto.name} criada com sucesso!`);
+          this.categoriaService.refresh();
+          this.modalService.close();
         },
         error: (err) => {
-          this.refreshAndClose(organogramId);
           toast.error(`Erro ao criar categoria: ${err.error.message}`);
         },
       });
     }
   }
 
-  private refreshAndClose(organogramId: any) {
-    // Refresh the global state in the service
-    this.categoriaService.findAllCategorias({ organogramId }).subscribe();
-    this.onClose();
-  }
 
   onClose() {
     this.modalService.close();

@@ -1,8 +1,8 @@
 import { PageContent } from "@/shared/models/api-response";
 
 export interface GetCategoriaDto {
-    id: number;
-    name: string;
+    id?: number;
+    name?: string;
 }
 
 export type findAllCategoriasDto = PageContent<GetCategoriaDto>;

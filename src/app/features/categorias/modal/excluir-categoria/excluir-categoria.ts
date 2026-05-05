@@ -28,7 +28,8 @@ export class ExcluirCategoria {
   excluir(id: any) {
     this.categoriaService.deletarCategoria(id).subscribe({
       next: () => {
-        this.refreshAndClose(id);
+        this.categoriaService.refresh();
+        this.onClose();
       },
     });
   }
@@ -36,10 +37,4 @@ export class ExcluirCategoria {
   onClose() {
     this.modalService.close();
   }
-
-  private refreshAndClose(organogramId: any) {
-        // Refresh the global state in the service
-        this.categoriaService.findAllCategorias({ organogramId }).subscribe();
-        this.onClose();
-    }
 }

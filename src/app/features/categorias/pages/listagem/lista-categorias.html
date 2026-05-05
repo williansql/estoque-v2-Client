@@ -29,7 +29,7 @@
             <tbody class="divide-y divide-slate-100">
               @for (categoria of listCategorias(); track categoria.id) {
               <tr class="hover:bg-slate-50/80 transition-colors group">
-                <td class="p-4 text-slate-600 font-normal w-5/6">{{ categoria.name }}</td>
+                <td class="p-4 text-slate-600 font-normal w-5/6 truncate hover:">{{ categoria.name }}</td>
                 <td class="p-4 w-1/6">
                   <div class="flex gap-2 justify-end">
                     <z-button zSize="sm" zType="secondary"

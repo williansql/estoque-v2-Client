@@ -3,7 +3,7 @@ import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardCardComponent } from '@/shared/components/card';
 import { ModalService } from '@/shared/components/modal';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, effect, untracked } from '@angular/core';
 import { CategoriaService } from '../../categoria.service';
 import { GetCategoriaDto } from '../../dto/categoria.dto';
 import { CadastroCategoriaComponent } from '../../modal/cadastro-categoria/cadastro-categoria.component';
@@ -29,9 +29,19 @@ export class ListaCategoriasComponent implements OnInit {
   totalPages = signal<number>(1);
   totalElements = signal<number>(0);
 
-  ngOnInit(): void {
-    this.getAllCategorias();
+  constructor() {
+    effect(() => {
+      // Monitora mudanças na paginação ou sinal de refresh do serviço
+      this.categoriaService.refreshSignal();
+      this.pageIndex();
+      this.pageSize();
+
+      // Executa a busca sem criar dependência circular
+      untracked(() => this.getAllCategorias());
+    });
   }
+
+  ngOnInit(): void {}
 
   getAllCategorias() {
     const token: any = this.authService.decodeToken();

@@ -182,6 +182,7 @@ export class ZardPaginationEllipsisComponent {
     ZardPaginationButtonComponent,
     ZardPaginationPreviousComponent,
     ZardPaginationNextComponent,
+    ZardPaginationEllipsisComponent,
     NgTemplateOutlet,
   ],
   template: `
@@ -198,22 +199,26 @@ export class ZardPaginationEllipsisComponent {
           />
         </li>
 
-        @for (page of pages(); track page) {
+        @for (page of pages(); track $index) {
           <li z-pagination-item>
-            <button
-              z-pagination-button
-              type="button"
-              class="focus-visible:rounded-md"
-              [attr.aria-current]="page === zPageIndex() ? 'page' : null"
-              [attr.aria-disabled]="zDisabled() || null"
-              [zActive]="page === zPageIndex()"
-              [zDisabled]="zDisabled()"
-              [zSize]="zSize()"
-              (click)="goToPage(page)"
-            >
-              <span class="sr-only">{{ pages().length === page ? 'To last page, page' : 'To page' }}</span>
-              {{ page }}
-            </button>
+            @if (page === 'ellipsis') {
+              <z-pagination-ellipsis />
+            } @else {
+              <button
+                z-pagination-button
+                type="button"
+                class="focus-visible:rounded-md"
+                [attr.aria-current]="page === zPageIndex() ? 'page' : null"
+                [attr.aria-disabled]="zDisabled() || null"
+                [zActive]="page === zPageIndex()"
+                [zDisabled]="zDisabled()"
+                [zSize]="zSize()"
+                (click)="goToPage(page)"
+              >
+                <span class="sr-only">{{ pages().length === page ? 'To last page, page' : 'To page' }}</span>
+                {{ page }}
+              </button>
+            }
           </li>
         }
 
@@ -252,7 +257,49 @@ export class ZardPaginationComponent {
   readonly Math = Math;
 
   protected readonly classes = computed(() => mergeClasses(paginationVariants(), this.class()));
-  readonly pages = computed<number[]>(() => Array.from({ length: Math.max(0, this.zTotal()) }, (_, i) => i + 1));
+
+  readonly pages = computed<(number | 'ellipsis')[]>(() => {
+    const total = this.zTotal();
+    const current = this.zPageIndex();
+    const siblingCount = 1; // Quantos números aparecem ao lado da página atual
+
+    // Limite máximo de slots: 7
+    // [1] [...] [current-1] [current] [current+1] [...] [total]
+    
+    const totalPageNumbers = 7;
+
+    if (total <= totalPageNumbers) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    const leftSiblingIndex = Math.max(current - siblingCount, 1);
+    const rightSiblingIndex = Math.min(current + siblingCount, total);
+
+    const shouldShowLeftDots = leftSiblingIndex > 2;
+    const shouldShowRightDots = rightSiblingIndex < total - 2;
+
+    if (!shouldShowLeftDots && shouldShowRightDots) {
+      const leftItemCount = 5;
+      const leftRange = Array.from({ length: leftItemCount }, (_, i) => i + 1);
+      return [...leftRange, 'ellipsis', total];
+    }
+
+    if (shouldShowLeftDots && !shouldShowRightDots) {
+      const rightItemCount = 5;
+      const rightRange = Array.from({ length: rightItemCount }, (_, i) => total - rightItemCount + i + 1);
+      return [1, 'ellipsis', ...rightRange];
+    }
+
+    if (shouldShowLeftDots && shouldShowRightDots) {
+      const middleRange = Array.from(
+        { length: rightSiblingIndex - leftSiblingIndex + 1 },
+        (_, i) => leftSiblingIndex + i
+      );
+      return [1, 'ellipsis', ...middleRange, 'ellipsis', total];
+    }
+
+    return Array.from({ length: total }, (_, i) => i + 1);
+  });
 
   goToPage(page: number): void {
     if (!this.zDisabled() && page !== this.zPageIndex()) {
