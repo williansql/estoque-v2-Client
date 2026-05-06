@@ -1,13 +1,18 @@
-import { Component, inject } from "@angular/core";
-import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { AuthService } from "../auth.service";
-import { AuthLoginDto } from "../dto/auth.dto";
-import { Router } from "@angular/router";
+import { ZardButtonComponent } from "@/shared/components/button";
 import { ZardCardComponent } from "@/shared/components/card";
 import { ZardFormFieldComponent } from "@/shared/components/form";
 import { ZardInputDirective } from "@/shared/components/input";
-import { ZardButtonComponent } from "@/shared/components/button";
+import { ZardInputGroupComponent } from "@/shared/components/input-group";
+import { ZardTooltipDirective } from "@/shared/components/tooltip";
+import { Component, inject } from "@angular/core";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import { lucideEye, lucideEyeOff } from "@ng-icons/lucide";
 import { toast } from "ngx-sonner";
+import { AuthService } from "../auth.service";
+import { AuthLoginDto } from "../dto/auth.dto";
+import { ZardDividerComponent } from "@/shared/components/divider";
 
 @Component({
     selector: 'app-login',
@@ -17,7 +22,15 @@ import { toast } from "ngx-sonner";
         ZardFormFieldComponent,
         ZardInputDirective,
         ZardButtonComponent,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ZardInputGroupComponent,
+        NgIcon,
+    ],
+    viewProviders: [
+        provideIcons({
+            lucideEye,
+            lucideEyeOff
+        })
     ]
 })
 export class LoginComponent {
@@ -25,6 +38,8 @@ export class LoginComponent {
     private readonly fb = inject(FormBuilder);
     private readonly authService = inject(AuthService);
     private readonly router = inject(Router);
+
+    isPasswordVisible: boolean = true;
 
     loginForm = this.fb.group({
         login: ['', Validators.required],

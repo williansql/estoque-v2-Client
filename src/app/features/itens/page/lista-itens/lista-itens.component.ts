@@ -13,11 +13,22 @@ import { ZardPaginationComponent } from '@/shared/components/pagination';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CadastroItensComponent } from '../../modal/cadastro-item/cadastro-item.component';
+import { ZardAvatarComponent } from '@/shared/components/avatar';
+import { provideIcons, NgIcon } from '@ng-icons/core';
+import { lucideBinary, lucidePackage, lucidePackage2, lucideTag } from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-lista-itens',
-  imports: [ZardButtonComponent, ZardCardComponent, ZardPaginationComponent, FormsModule, CommonModule],
+  imports: [ZardButtonComponent, ZardCardComponent, ZardPaginationComponent, FormsModule, CommonModule, NgIcon],
   templateUrl: './lista-itens.html',
+  viewProviders: [
+    provideIcons({
+      lucidePackage,
+      lucidePackage2,
+      lucideTag,
+      lucideBinary,
+    })
+  ]
 })
 export class ListaItensComponent {
   private readonly modalService = inject(ModalService);

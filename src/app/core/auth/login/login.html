@@ -1,23 +1,38 @@
-<div class="h-screen w-screen flex items-center justify-center bg-linear-to-tl from-[#13325b]/70 to-[#13325b]">
-    <z-card class=" max-w-[500px] shadow-2xl shadow-indigo-600/50">
+<div class="h-screen w-screen p-4 flex items-center justify-center bg-linear-to-tl from-[#13325b] to-[#13325b]">
+    <z-card class="min-w-[290px] w-[400px] shadow-2xl shadow-indigo-600/50">
         <div class="flex flex-col items-center justify-center mb-4">
-            <img src="/icone-estoque.png" alt="Logo" class="w-15 h-15">
-            <span class="text-2xl font-bold text-slate-900">SGI - Estoque</span>
-            <span class="text-sm text-slate-500">Bem-vindo ao sistema de gestão de estoque</span>
-            <span class="text-sm text-slate-500">SESAD - Parnamirim/RN</span>
+            <div class="flex gap-5 justify-center w-full">
+                <img src="/logo-daf.svg" alt="Logo-DAF" class="w-25 h-25">
+                <img src="/logo-sesad.svg" alt="Logo-SESAD" class="w-25 h-25">
+            </div>
+            <span class="text-2xl font-bold text-slate-900">DAF - Farmácia</span>
+            <span class="text-xs text-slate-500">Bem-vindo ao sistema de gestão de farmácia</span>
+            <span class="text-xs text-slate-500">DAF SESAD - Parnamirim/RN</span>
         </div>
         <div class="">
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" action="" method="post" class="flex flex-col gap-3">
                 <z-form-field class="flex flex-col gap-1">
                     <label class="text-slate-900 text-xs" for="login">Login</label>
-                    <input z-input formControlName="login" />
+                    <input z-input type="text" formControlName="login" />
                 </z-form-field>
                 <z-form-field class="flex flex-col gap-1">
                     <label class="text-slate-900 text-xs" for="password">Senha</label>
-                    <input z-input type="password" formControlName="password" />
+                    <z-input-group [zAddonAfter]="isPasswordVisible ? eyeOff : eye" size="small" class="mb-4">
+                        <input z-input [type]="isPasswordVisible ? 'password' : 'text'" formControlName="password" />
+                    </z-input-group>
                 </z-form-field>
-                <z-button type="submit" class="w-full mt-4" [zDisabled]="loginForm.invalid"
-                    (click)="onSubmit()">Login</z-button>
+                <button z-button type="submit" class="w-full mt-2 mb-4" [zDisabled]="loginForm.invalid">Login</button>
             </form>
         </div>
     </z-card>
+
+
+    <!-- TEMPLATES - ICONES -->
+    <ng-template #eye>
+        <ng-icon class="cursor-pointer hover:" size="18" name="lucideEye"
+            (click)="isPasswordVisible = !isPasswordVisible" />
+    </ng-template>
+    <ng-template #eyeOff>
+        <ng-icon class="cursor-pointer" size="18" name="lucideEyeOff"
+            (click)="isPasswordVisible = !isPasswordVisible" />
+    </ng-template>

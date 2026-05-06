@@ -3,8 +3,7 @@
     [class.w-[260px]]="!layoutService.isSidebarCollapsed()"
     [class.w-[80px]]="layoutService.isSidebarCollapsed() && !layoutService.isMobile()"
     [class.w-0]="layoutService.isSidebarCollapsed() && layoutService.isMobile()"
-    [class.fixed]="layoutService.isMobile()"
-    [class.inset-y-0]="layoutService.isMobile()"
+    [class.fixed]="layoutService.isMobile()" [class.inset-y-0]="layoutService.isMobile()"
     [class.left-0]="layoutService.isMobile()">
 
     <!-- Logo Area -->
@@ -12,7 +11,7 @@
         <div class="flex items-center gap-3 min-w-max">
             <div
                 class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center border border-white/5 shadow-inner">
-                <img class="text-green-400 text-2xl" src="icone-estoque.png" alt="" />
+                <img class="text-green-400 text-2xl" src="logo-daf.svg" alt="Logo DAF" />
             </div>
             @if (!layoutService.isSidebarCollapsed()) {
             <div class="flex flex-col transition-opacity duration-300">

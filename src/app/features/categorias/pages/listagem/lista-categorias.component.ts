@@ -10,11 +10,12 @@ import { CadastroCategoriaComponent } from '../../modal/cadastro-categoria/cadas
 import { ExcluirCategoria } from '../../modal/excluir-categoria/excluir-categoria';
 import { ZardPaginationComponent } from '@/shared/components/pagination';
 import { FormsModule } from '@angular/forms';
+import { ZardAvatarComponent } from '@/shared/components/avatar';
 
 @Component({
   selector: 'app-lista-categorias',
   standalone: true,
-  imports: [CommonModule, ZardButtonComponent, ZardCardComponent, ZardPaginationComponent, FormsModule],
+  imports: [CommonModule, ZardButtonComponent, ZardCardComponent, ZardPaginationComponent, ZardAvatarComponent, FormsModule],
   templateUrl: './lista-categorias.html',
 })
 export class ListaCategoriasComponent implements OnInit {
@@ -41,7 +42,7 @@ export class ListaCategoriasComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   getAllCategorias() {
     const token: any = this.authService.decodeToken();
@@ -83,5 +84,14 @@ export class ListaCategoriasComponent implements OnInit {
         data: categoria,
       })
       .subscribe(() => console.log('Categoria excluída: ', categoria));
+  }
+
+  getInitials(name: string): string {
+    if (!name) return '';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return parts[0].slice(0, 2).toUpperCase();
   }
 }

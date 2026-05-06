@@ -1,13 +1,14 @@
-import { Component, inject } from "@angular/core";
-import { ZardCardComponent } from "@/shared/components/card";
-import { MODAL_DATA } from "@/shared/components/modal/modal.tokens";
-import { GetItemDto } from "../../dto/itens.dto";
-import { CommonModule } from "@angular/common";
-import { ModalService } from "@/shared/components/modal";
-import { ExcluirItensComponent } from "../excluir-item/excluir-item.component";
-import { EditarItemComponent } from "../editar-item/editar-item.component";
 import { ZardButtonComponent } from "@/shared/components/button";
+import { ZardCardComponent } from "@/shared/components/card";
+import { ModalService } from "@/shared/components/modal";
+import { MODAL_DATA } from "@/shared/components/modal/modal.tokens";
+import { CommonModule } from "@angular/common";
+import { Component, inject } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
+import { GetItemDto } from "../../dto/itens.dto";
+import { EditarItemComponent } from "../editar-item/editar-item.component";
+import { ExcluirItensComponent } from "../excluir-item/excluir-item.component";
+
 
 @Component({
   selector: 'app-detalhes-itens',
@@ -41,7 +42,7 @@ export class DetalhesItensComponent {
       .subscribe(() => console.log('Item excluído: ', item));
   }
 
-  FecharDetalhe(){
+  FecharDetalhe() {
     this.modalService.close();
   }
 }
