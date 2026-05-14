@@ -126,7 +126,7 @@
 
                 <!-- LINHA 4: Observações + Preço de Compra -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <z-form-field class="flex flex-col w-full">
+                    <z-form-field class="flex flex-col w-full gap-0">
                         <label class="text-xs font-medium text-slate-600 mb-1 block" for="observations">
                             Observações
                         </label>
@@ -134,7 +134,7 @@
                             formControlName="observations" class="w-full text-sm placeholder:text-xs" />
                     </z-form-field>
 
-                    <z-form-field class="flex flex-col w-full">
+                    <z-form-field class="flex flex-col w-full gap-0">
                         <label class="text-xs font-medium text-slate-600 mb-1 block" for="buyPrice">
                             Preço de Compra
                         </label>
@@ -143,38 +143,50 @@
                     </z-form-field>
                 </div>
 
-                <!-- LINHA 5: Preço de Venda + Unidade de Medida -->
+                <!-- LINHA 5: Unidade de Medida + Quantidade por Unidade -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                    <z-form-field class="flex flex-col w-full">
-                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureEnum">
+                    <z-form-field class="flex flex-col w-full gap-0">
+                        <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block"
+                            for="unitMeasureEnum">
                             Unidade de Medida
                         </label>
-                        <z-select z-input id="unitMeasureEnum" formControlName="unitMeasureEnum" class="w-full text-sm">
-                            <z-select-item zValue="">Selecione...</z-select-item>
-                            <z-select-item zValue="UN">Unidade</z-select-item>
-
-                        </z-select>
+                        <input z-input type="text" id="unitMeasureEnum" placeholder="Digite a unidade de medida..."
+                            step="1" formControlName="unitMeasureEnum" class="w-full text-sm placeholder:text-xs" />
+                        @if (itemForm.get('unitMeasureEnum')?.invalid && (itemForm.get('unitMeasureEnum')?.touched ||
+                        itemForm.get('unitMeasureEnum')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('unitMeasureEnum')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                        </div>
+                        }
                     </z-form-field>
-                    <z-form-field class="flex flex-col w-full">
+                    <z-form-field class="flex flex-col w-full gap-0">
                         <label class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureQtd">
                             Quantidade por Unidade
                         </label>
                         <input z-input type="number" id="unitMeasureQtd" placeholder="Ex: 12" step="1"
                             formControlName="unitMeasureQtd" class="w-full text-sm placeholder:text-xs" />
+                        @if (itemForm.get('unitMeasureQtd')?.invalid && (itemForm.get('unitMeasureQtd')?.touched ||
+                        itemForm.get('unitMeasureQtd')?.dirty)) {
+                        <div class="mt-0">
+                            @if (itemForm.get('unitMeasureQtd')?.hasError('required')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                            }
+                            @if (itemForm.get('unitMeasureQtd')?.hasError('min')) {
+                            <span class="text-red-600 text-[10px] sm:text-xs">O valor mínimo é 1</span>
+                            }
+                        </div>
+                        }
                     </z-form-field>
                 </div>
 
-                <!-- LINHA 6: Quantidade por Unidade + Quantidade Mínima -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                </div>
-
-                <!-- LINHA 7: Categoria + Tipo do Item -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- LINHA 6: Tipo do item + CATMAT + Perecivel -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
 
-                    <z-form-field class="flex flex-col w-full">
+                    <z-form-field class="flex flex-col w-full gap-0">
                         <label class="text-xs font-medium text-slate-600 mb-1 block" for="typeItem">
                             Tipo do Item
                         </label>
@@ -189,19 +201,7 @@
                         </div>
                         }
                     </z-form-field>
-                </div>
-
-                <!-- LINHA 8: Perecível + CATMAT -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <z-form-field class="flex flex-row items-center gap-3 w-full">
-                        <input type="checkbox" id="perecivel" formControlName="perecivel"
-                            class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
-                        <label class="text-xs font-medium text-slate-600" for="perecivel">
-                            Perecível
-                        </label>
-                    </z-form-field>
-
-                    <z-form-field class="flex flex-col w-full">
+                    <z-form-field class="flex flex-col w-full gap-0">
                         <label class="text-xs font-medium text-slate-600 mb-1 block" for="catmat">
                             CATMAT
                         </label>
@@ -216,24 +216,12 @@
                         </div>
                         }
                     </z-form-field>
-                </div>
-
-                <!-- LINHA 9: ID do Catálogo + Organograma -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <z-form-field class="flex flex-col w-full">
-                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="catalogItemId">
-                            ID do Catálogo
+                    <z-form-field class="flex flex-row items-center w-full gap-2 mt-2">
+                        <input type="checkbox" id="perecivel" formControlName="perecivel"
+                            class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
+                        <label class="text-xs font-medium text-slate-600" for="perecivel">
+                            Perecível
                         </label>
-                        <input z-input type="number" id="catalogItemId" placeholder="Número do catálogo"
-                            formControlName="catalogItemId" class="w-full text-sm placeholder:text-xs" />
-                    </z-form-field>
-
-                    <z-form-field class="flex flex-col w-full">
-                        <label class="text-xs font-medium text-slate-600 mb-1 block" for="organogram">
-                            Organograma
-                        </label>
-                        <input z-input type="number" id="organogram" placeholder="ID do organograma"
-                            formControlName="organogram" class="w-full text-sm placeholder:text-xs" />
                     </z-form-field>
                 </div>
 
