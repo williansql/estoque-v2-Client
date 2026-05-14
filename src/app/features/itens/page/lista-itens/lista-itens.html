@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-2">
   <!-- HEADER -->
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
     <div>
@@ -6,9 +6,8 @@
       <p class="text-slate-500 text-sm">Gerencie os produtos do seu estoque.</p>
     </div>
     <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-
       <z-button (click)="openModalCadastro()"
-        class="w-full sm:w-auto cursor-pointer hover:opacity-80 transition-colors">
+        class="hidden sm:flex sticky z-20 bottom-0 w-full cursor-pointer hover:opacity-80 transition-colors">
         Adicionar Produto
       </z-button>
     </div>
@@ -67,11 +66,12 @@
     <!-- MOBILE CARD VIEW -->
     <div class="flex flex-col gap-3 sm:hidden">
       @for (itens of listItens(); track itens.id) {
-      <z-card class="py-4 px-0" (click)="verItem(itens)">
+      <z-card class="py-4 px-0">
         <div class="flex flex-col gap-4">
           <div class="flex gap-3">
             <div class="w-10 h-10 p-2 rounded-lg bg-slate-200 flex items-center justify-center">
-              <ng-icon name="lucidePackage"></ng-icon>
+              <!-- <ng-icon name="lucidePackage"></ng-icon> -->
+              <i class="material-symbols-outlined">mixture_med</i>
             </div>
             <div class="flex flex-col gap-1">
               <span class="text-slate-800 font-semibold text-xs">{{ itens.name }}</span>
@@ -82,40 +82,50 @@
                   itens.category
                   }}</span>
                 <span
-                  class="w-max px-2 py-0.5 rounded-full flex items-center gap-1 bg-[#d1fae5] text-[#059669] font-semibold text-xs">{{
-                  itens.unitMeasureQtd + ' ' +
-                  itens.unitMeasureEnum
-                  }}</span>
+                  class="w-max px-2 py-0.5 rounded-full flex items-center gap-1 bg-[#d1fae5] text-[#059669] font-semibold text-xs">
+                  <ng-icon size="14" name="lucideBinary"></ng-icon>
+                  {{ itens.unitMeasureQtd + ' ' + itens.unitMeasureEnum}}</span>
               </div>
             </div>
           </div>
           <div class="flex px-2 py-0.5 items-center gap-1 mt-2 w-max px-2 py-0.5 rounded-full flex items-center gap-1"
             [class]="itens.quantity ?? 0 <= 0 ? 'text-green-600' : 'text-red-600'">
-            <ng-icon size="14" name="lucideBinary"></ng-icon>
-            <span class="text-xs font-medium">Quantidade: {{ itens.quantity }}</span>
+            <span class="flex items-center gap-0 text-xs font-medium">
+              <i class="material-symbols-outlined">123</i>
+              Quantidade: {{ itens.quantity }}</span>
           </div>
           <div class="border-t pt-[10px] border-slate-200 pt-3 flex gap-2">
-            <z-button zSize="sm" zType="secondary" class="flex-1 cursor-pointer" (click)="openModal(itens)">
-              Editar
-            </z-button>
-            <z-button zSize="sm" zType="destructive"
-              class="flex-1 cursor-pointer hover:text-red-600 hover:border-red-200" (click)="deleteItens(itens)">
-              Excluir
+            <z-button zSize="sm" zType="secondary" class="flex-1 cursor-pointer" (click)="verItem(itens)">
+              Ver detalhes
             </z-button>
           </div>
         </div>
       </z-card>
       }
-      <div class="mt-4 flex flex-col justify-center">
+      <div class="mt-4 flex flex-col gap-3 items-center justify-center">
         <z-pagination [zPageIndex]="pageIndex()" [zTotal]="totalPages()"
           (zPageIndexChange)="pageIndex.set($event); getAllItens()" />
-        <div class="flex items-center gap-2">
-          <span class="text-sm text-slate-500 whitespace-nowrap">Itens por página:</span>
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-xs text-slate-500 whitespace-nowrap">Itens por página</span>
           <input type="number" [ngModel]="pageSize()"
             (ngModelChange)="pageSize.set($event); pageIndex.set(1); getAllItens()"
-            class="w-16 px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-400" />
+            class="flex items-center justify-center w-15 px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-400" />
         </div>
+
+        <z-button (click)="openModalCadastro()" zShape="circle"
+          class="fixed z-50 bottom-8 right-8 !w-12 !h-12 shadow-[0_10px_25px_-5px_rgba(19,50,91,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 bg-[#13325b] text-white border-none group">
+          <i
+            class="material-symbols-outlined !text-[36px] transition-transform duration-500 group-hover:rotate-90">add</i>
+          <span
+            class="absolute right-full mr-4 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
+            Adicionar Novo Produto
+          </span>
+        </z-button>
+
+
+
       </div>
+
     </div>
     } @else {
     <!-- EMPTY STATE (Shared) -->

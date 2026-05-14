@@ -35,7 +35,7 @@
             <!-- Dashboard -->
             <li class="hover:cursor-pointer">
                 <a routerLink="/dashboard" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
-                    #rlaDashboard="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
+                    #rlaDashboard="routerLinkActive" [routerLinkActiveOptions]="{exact: true}" (click)="onMenuClick()"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
                     <div [class.bg-green-500]="rlaDashboard.isActive"
                         class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
@@ -51,7 +51,7 @@
             <!-- Categorias -->
             <li class="hover:cursor-pointer">
                 <a routerLink="/categorias" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
-                    #rlaCategorias="routerLinkActive"
+                    #rlaCategorias="routerLinkActive" (click)="onMenuClick()"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
                     <div [class.bg-green-500]="rlaCategorias.isActive"
                         class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
@@ -67,7 +67,7 @@
             <!-- Itens -->
             <li class="hover:cursor-pointer">
                 <a routerLink="/itens" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
-                    #rlaItens="routerLinkActive"
+                    #rlaItens="routerLinkActive" (click)="onMenuClick()"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
                     <div [class.bg-green-500]="rlaItens.isActive"
                         class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
@@ -83,7 +83,7 @@
             <!-- Fornecedor -->
             <li class="hover:cursor-pointer">
                 <a routerLink="/fornecedor" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
-                    #rlaFornecedor="routerLinkActive"
+                    #rlaFornecedor="routerLinkActive" (click)="onMenuClick()"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
                     <div [class.bg-green-500]="rlaFornecedor.isActive"
                         class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
@@ -99,7 +99,7 @@
             <!-- Pedidos -->
             <li class="hover:cursor-pointer">
                 <a routerLink="/pedidos" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
-                    #rlaPedidos="routerLinkActive"
+                    #rlaPedidos="routerLinkActive" (click)="onMenuClick()"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
                     <div [class.bg-green-500]="rlaPedidos.isActive"
                         class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
@@ -115,7 +115,7 @@
             <!-- Movimentação -->
             <li class="hover:cursor-pointer">
                 <a routerLink="/movimentacao" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
-                    #rlaMov="routerLinkActive"
+                    #rlaMov="routerLinkActive" (click)="onMenuClick()"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
                     <div [class.bg-green-500]="rlaMov.isActive"
                         class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"

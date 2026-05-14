@@ -1,145 +1,201 @@
-<div class="flex flex-col gap-6 p-6">
-  <!-- Cabeçalho do Modal -->
-  <div class="flex flex-col border-b border-slate-200 pb-4">
+<div class="flex flex-col min-h-full bg-[#F8FAFC]">
+  <!-- Cabeçalho do Modal (Dark Style) -->
+  <div class="bg-[#13325B] p-6 rounded-t-2xl">
     <div class="flex justify-between items-start">
-      <div class="flex flex-col">
-        <h2 class="text-xl font-bold text-slate-700">{{ itens.name }}</h2>
-        <span class="text-xs text-slate-400 font-medium uppercase tracking-widest mt-1">{{ itens.codItem }}</span>
+      <div class="flex items-center gap-4">
+        <!-- Ícone do Produto -->
+        <div
+          class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shadow-inner">
+          <i class="material-symbols-outlined text-white text-3xl">package_2</i>
+        </div>
+        <div class="flex flex-col">
+          <h2 class="text-xl font-bold text-white tracking-tight">{{ itens.name }}</h2>
+          <div class="flex items-center gap-2 mt-1.5">
+            <div class="bg-white/10 px-2 py-0.5 rounded border border-white/10 flex items-center gap-1.5">
+              <i class="material-symbols-outlined text-slate-400 text-[14px]">barcode</i>
+              <span class="text-slate-300 font-mono text-[11px] font-medium uppercase tracking-wider">{{ itens.codItem
+                }}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <button (click)="FecharDetalhe()" class="text-slate-400 hover:text-slate-600 transition-colors p-1">
-        <mat-icon class="!size-5">close</mat-icon>
+
+      <!-- Botão Fechar -->
+      <button (click)="FecharDetalhe()"
+        class="w-10 h-10 rounded-full flex items-center justify-center transition-all text-white group cursor-pointer">
+        <mat-icon class="!size-5 transition-transform group-active:scale-90">close</mat-icon>
       </button>
+    </div>
+
+    <!-- Badge de Alerta de Estoque -->
+    @if ((itens.quantity || 0) <= (itens.minQuantity || 0)) { <div
+      class="mt-5 bg-red-400/10 border border-red-500/20 rounded-full px-4 py-2 flex items-center gap-2.5 w-max animate-in fade-in slide-in-from-top-2 duration-500">
+      <i class="material-symbols-outlined text-red-400 text-lg">error</i>
+      <span class="text-red-400 text-xs font-bold uppercase tracking-wide">Estoque baixo</span>
+      <span class="text-red-400/40 font-bold">•</span>
+      <span class="text-red-400 text-xs font-semibold">{{ itens.quantity || 0 }} {{ itens.unitMeasureEnum || 'unidades'
+        }}</span>
+  </div>
+  }
+</div>
+
+<!-- Conteúdo em Cards -->
+<div class="flex flex-col gap-4 p-4 pb-24">
+
+  <!-- Informações Gerais -->
+  <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+    <div class="flex items-center gap-3 px-5 py-4 bg-slate-50/50 border-b border-slate-100">
+      <div
+        class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm border border-blue-100/50">
+        <i class="material-symbols-outlined text-[20px]">info</i>
+      </div>
+      <h3 class="text-[14px] font-bold text-slate-700 tracking-tight">Informações Gerais</h3>
+    </div>
+
+    <div class="p-5 flex flex-col gap-5">
+      <div class="flex justify-between items-center group">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Categoria</span>
+        <span
+          class="bg-slate-100 text-slate-700 text-[11px] font-bold px-3.5 py-1.5 rounded-full border border-slate-200/50 shadow-sm">
+          {{ itens.category || 'N/A' }}
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Tipo</span>
+        <span class="text-[13px] font-bold text-slate-700">{{ itens.typeItem || 'N/A' }}</span>
+      </div>
+
+      <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Código de Barras</span>
+        <span class="text-[13px] font-bold text-slate-700">{{ itens.barcode || 'N/A' }}</span>
+      </div>
+
+      <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Unidade</span>
+        <span class="text-[13px] font-bold text-slate-700">{{ itens.unitMeasureEnum || 'N/A' }}</span>
+      </div>
     </div>
   </div>
 
-  <div class="flex flex-col gap-1">
-    <!-- Informações Básicas -->
-    <h3 class="text-sm font-semibold text-slate-700 border-slate-50 pb-2 mb-1">Informações Gerais</h3>
-
-    <div class="flex gap-1 text-xs">
-      <span class="text-slate-500">Categoria:</span>
-      <span [class.text-slate-400]="itens.category ? '' : 'text-slate-800'" class="font-normal">{{ itens.category
-        || 'N/A' }}</span>
-    </div>
-
-    <div class="flex gap-1 text-xs">
-      <span class="text-slate-500">Tipo:</span>
-      <span [class.text-slate-400]="itens.typeItem ? '' : 'text-slate-800'" class="font-normal">{{ itens.typeItem
-        || 'N/A' }}</span>
-    </div>
-
-    <div class="flex gap-1 text-xs">
-      <span class="text-slate-500">Código de Barras:</span>
-      <span [class.text-slate-400]="itens.barcode ? '' : 'text-slate-800'" class="font-normal">{{
-        itens.barcode
-        || 'N/A' }}</span>
-    </div>
-
-    <div class="flex gap-1 text-xs">
-      <span class="text-slate-500">Unidade:</span>
-      <span [class.text-slate-400]="itens.unitMeasureQtd ? '' : 'text-slate-800'" class="font-normal">{{
-        itens.unitMeasureQtd
-        || 'N/A' }} {{
-        itens.unitMeasureEnum || 'N/A' }}</span>
-    </div>
-
-    <!-- Estoque e Preços -->
-    <h3 class="text-sm font-semibold text-slate-700 border-slate-50 pb-2 mb-1">Estoque e Valores</h3>
-
-    <div class="flex gap-1 text-xs">
-      <span class="text-slate-500">Quantidade Atual:</span>
-      <span class="font-medium" [class.text-red-600/80]="(itens.quantity || 0) <= (itens.minQuantity || 0)"
-        [class.text-green-600/80]="(itens.quantity || 0) > (itens.minQuantity || 0)">
-        {{ itens.quantity || 0 }} unidades
-      </span>
-    </div>
-
-    <div class="flex gap-1 text-xs">
-      <span class="text-slate-500">Qtd. Mínima:</span>
-      <span [class.text-slate-400]="itens.minQuantity ? '' : 'text-slate-800'" class="font-normal">{{
-        itens.minQuantity
-        || 'N/A' }}</span>
-    </div>
-
-    <div class="flex gap-1 text-xs">
-      <span class="text-slate-500">Preço Compra:</span>
-      <span class="font-medium text-green-600/80">{{ itens.buyPrice || 0 | currency:'BRL' }}</span>
-    </div>
-
-
-    <!-- Detalhes Adicionais -->
-
-    <h3 class="text-sm font-semibold text-slate-700 border-slate-50 pb-2 mb-1">Detalhes Adicionais</h3>
-
-    <div class="grid grid-cols-1 md:grid-cols-1 gap-x-8 gap-y-0.25">
-      <div class="flex gap-1 text-xs">
-        <span class="text-slate-500">Marca:</span>
-        <span [class.text-slate-400]="itens.branding ? '' : 'text-slate-800'" class="font-normal  ">{{
-          itens.branding || 'N/A' }}</span>
+  <!-- Estoque e Valores -->
+  <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+    <div class="flex items-center gap-3 px-5 py-4 bg-slate-50/50 border-b border-slate-100">
+      <div
+        class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm border border-blue-100/50">
+        <i class="material-symbols-outlined text-[20px]">inventory_2</i>
       </div>
-      <div class="flex gap-1 text-xs">
-        <span class="text-slate-500">Modelo:</span>
-        <span [class.text-slate-400]="itens.model ? '' : 'text-slate-800'" class="font-normal">{{ itens.model || 'N/A'
-          }}</span>
+      <h3 class="text-[14px] font-bold text-slate-700 tracking-tight">Estoque e Valores</h3>
+    </div>
+
+    <div class="p-5 flex flex-col gap-5">
+      <div class="flex justify-between items-center">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Quantidade Atual</span>
+        <div class="flex items-baseline gap-1">
+          <span class="text-[20px] font-black" [class.text-red-500]="(itens.quantity || 0) <= (itens.minQuantity || 0)"
+            [class.text-green-600]="(itens.quantity || 0) > (itens.minQuantity || 0)">
+            {{ itens.quantity || 0 }}
+          </span>
+          <span class="text-[11px] text-slate-400 font-bold uppercase">{{ itens.unitMeasureEnum || 'un.' }}</span>
+        </div>
       </div>
-      <div class="flex gap-1 text-xs">
-        <span class="text-slate-500">Perecível:</span>
-        <span class="font-normal text-slate-900">{{ itens.perecivel ? 'Sim' :
-          'Não'
-          }}</span>
+
+      <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Qtd. Mínima</span>
+        <span class="text-[14px] font-bold text-slate-700">{{ itens.minQuantity || 0 }}</span>
       </div>
-      <div class="flex gap-1 text-xs">
-        <span class="text-slate-500">CATMAT:</span>
-        <span [class.text-slate-400]="itens.catmat ? '' : 'text-slate-800'" class="font-normal">{{ itens.catmat ||
-          'N/A'
-          }}</span>
+
+      <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Preço de Compra</span>
+        <div class="bg-green-50 px-3 py-1.5 rounded-lg border border-green-100 flex items-center gap-1.5">
+          <i class="material-symbols-outlined text-green-600 text-[16px]">payments</i>
+          <span class="text-green-700 text-[14px] font-bold">{{ itens.buyPrice || 0 | currency:'BRL' }}</span>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Detalhes Adicionais -->
+  <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+    <div class="flex items-center gap-3 px-5 py-4 bg-slate-50/50 border-b border-slate-100">
+      <div
+        class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm border border-blue-100/50">
+        <i class="material-symbols-outlined text-[20px]">assignment</i>
+      </div>
+      <h3 class="text-[14px] font-bold text-slate-700 tracking-tight">Detalhes Adicionais</h3>
+    </div>
+
+    <div class="p-5 flex flex-col gap-5">
+      <div class="flex justify-between items-center">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Marca</span>
+        <span class="text-[13px] font-bold text-slate-700 text-right">{{ itens.branding || 'N/A' }}</span>
+      </div>
+
+      <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Modelo</span>
+        <span class="text-[13px] font-bold text-slate-700 text-right">{{ itens.model || 'N/A' }}</span>
+      </div>
+
+      <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Perecível</span>
+        <span class="text-[13px] font-bold" [class.text-amber-600]="itens.perecivel"
+          [class.text-slate-700]="!itens.perecivel">
+          {{ itens.perecivel ? 'Sim' : 'Não' }}
+        </span>
+      </div>
+
       @if (itens.description) {
-      <div class="mt-0 border-t border-slate-50">
-        <span class="text-xs font-regular text-slate-500 block mb-1">Descrição:</span>
-        <p class="text-xs text-slate-500 leading-relaxed"
-          [class.text-slate-400]="itens.description ? '' : 'text-slate-500'" class="font-normal text-xs">
-          {{
-          itens.description || 'N/A' }}</p>
+      <div class="flex flex-col gap-2 border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Descrição</span>
+        <p
+          class="text-[13px] text-slate-600 leading-relaxed bg-slate-50/50 p-3 rounded-xl border border-slate-100 italic">
+          "{{ itens.description }}"
+        </p>
+      </div>
+      }
+
+      @if (itens.observations) {
+      <div class="flex flex-col gap-2 border-t border-slate-50 pt-4">
+        <span class="text-[12px] text-slate-400 font-semibold uppercase tracking-wider">Observações</span>
+        <p
+          class="text-[13px] text-slate-600 leading-relaxed italic p-3 bg-blue-50/30 rounded-xl border border-blue-100/30">
+          {{ itens.observations }}
+        </p>
       </div>
       }
     </div>
-
-
-    @if (itens.observations) {
-    <div class="mt-1">
-      <span class="text-xs text-slate-500 block mb-1">Observações:</span>
-      <p class="text-xs text-slate-700 leading-relaxed italic italic">{{ itens.observations }}</p>
-    </div>
-    }
-
   </div>
+</div>
 
-  <!-- Rodapé de Ações -->
-  <div
-    class="flex justify-between items-center gap-4 py-4 border-t border-slate-200 bg-slate-50/50 rounded-b-lg cursor-pointer">
-
-    <div class="flex-1 flex items-center justify-center hover:bg-red-200 rounded-md">
-      <button z-button class="flex-1 cursor-pointer gap-0.5 text-red-500 bg-white hover:bg-red-200"
+<!-- Rodapé de Ações -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white to-transparent z-20">
+  <div class="bg-white border border-slate-200 shadow-[0_-8px_20px_-5px_rgba(0,0,0,0.05)] rounded-2xl p-3 flex gap-3">
+    <div class="flex-1 flex justify-center">
+      <button z-button
+        class="flex-1 text-xs sm:text-sm cursor-pointer gap-0 text-red-600 bg-red-100 border border-red-200/50 cursor-pointer"
         (click)="excluirItem(itens)">
-        <i class=" text-sm material-symbols-outlined text-red-500">delete</i>
+        <i class="text-sm material-symbols-outlined text-red-500">delete</i>
         Excluir
       </button>
     </div>
 
-    <div class="flex-1 flex items-center justify-center bg-white hover:bg-slate-200 rounded-md cursor-pointer">
-      <button z-button class="flex-1 cursor-pointer text-slate-800 hover:text-slate-500 bg-white hover:bg-slate-200"
+    <div class="flex-1 flex justify-center">
+      <button z-button
+        class="text-xs flex-1 sm:text-sm cursor-pointer text-slate-800 hover:text-slate-500 bg-white hover:bg-slate-50 border border-slate-200 cursor-pointer"
         (click)="FecharDetalhe()">
-        <i class="material-symbols-outlined">cancel</i>
+        <i class="material-symbols-outlined text-[18px]">cancel</i>
         Fechar
       </button>
     </div>
-    <div class="flex-1 flex items-center justify-center hover:bg-green-200 rounded-md">
-      <button z-button class="flex-1 cursor-pointer gap-0.5 text-green-600 bg-white hover:bg-green-200"
+
+    <div class="flex-1 flex justify-center">
+      <button z-button zType="outline"
+        class="text-xs flex-1 sm:text-sm cursor-pointer gap-0.5 text-green-700 bg-green-100 cursor-pointer"
         (click)="editarItem(itens)">
-        <i class="material-symbols-outlined">edit</i>
+        <i class="material-symbols-outlined text-[18px]">edit</i>
         Editar
       </button>
     </div>
   </div>
+</div>
 </div>

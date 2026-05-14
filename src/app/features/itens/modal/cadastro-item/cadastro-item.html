@@ -153,10 +153,7 @@
                         <z-select z-input id="unitMeasureEnum" formControlName="unitMeasureEnum" class="w-full text-sm">
                             <z-select-item zValue="">Selecione...</z-select-item>
                             <z-select-item zValue="UN">Unidade</z-select-item>
-                            <z-select-item zValue="KG">Quilograma</z-select-item>
-                            <z-select-item zValue="L">Litro</z-select-item>
-                            <z-select-item zValue="M">Metro</z-select-item>
-                            <z-select-item zValue="CX">Caixa</z-select-item>
+
                         </z-select>
                     </z-form-field>
                     <z-form-field class="flex flex-col w-full">
@@ -181,12 +178,8 @@
                         <label class="text-xs font-medium text-slate-600 mb-1 block" for="typeItem">
                             Tipo do Item
                         </label>
-                        <z-select z-input id="typeItem" formControlName="typeItem" class="w-full text-sm">
-                            <z-select-item zValue="">Selecione um tipo</z-select-item>
-                            <z-select-item zValue="PRODUTO">Produto</z-select-item>
-                            <z-select-item zValue="SERVICO">Serviço</z-select-item>
-                            <z-select-item zValue="INSUMO">Insumo</z-select-item>
-                        </z-select>
+                        <input z-input type="text" id="typeItem" placeholder="Digite o tipo do item..." step="1"
+                            formControlName="typeItem" class="w-full text-sm placeholder:text-xs" />
                         @if (itemForm.get('typeItem')?.invalid && (itemForm.get('typeItem')?.touched ||
                         itemForm.get('typeItem')?.dirty)) {
                         <div class="mt-0">

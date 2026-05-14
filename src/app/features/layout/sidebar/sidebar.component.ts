@@ -18,4 +18,10 @@ import { CommonModule } from "@angular/common";
 })
 export class SidebarComponent {
     protected layoutService = inject(LayoutService);
+
+    onMenuClick() {
+        if (this.layoutService.isMobile()) {
+            this.layoutService.closeSidebar();
+        }
+    }
 }
