@@ -172,7 +172,7 @@
   <div class="bg-white border border-slate-200 shadow-[0_-8px_20px_-5px_rgba(0,0,0,0.05)] rounded-2xl p-3 flex gap-3">
     <div class="flex-1 flex justify-center">
       <button z-button
-        class="flex-1 text-xs sm:text-sm cursor-pointer gap-0 text-red-600 bg-red-100 border border-red-200/50 cursor-pointer"
+        class="flex-1 text-xs sm:text-sm cursor-pointer gap-0 text-red-600 bg-red-100 border border-red-200/50 hover:bg-red-200 hover:text-red-700 cursor-pointer"
         (click)="excluirItem(itens)">
         <i class="text-sm material-symbols-outlined text-red-500">delete</i>
         Excluir
@@ -190,7 +190,7 @@
 
     <div class="flex-1 flex justify-center">
       <button z-button zType="outline"
-        class="text-xs flex-1 sm:text-sm cursor-pointer gap-0.5 text-green-700 bg-green-100 cursor-pointer"
+        class="text-xs flex-1 sm:text-sm cursor-pointer gap-0.5 text-green-700 bg-green-100 cursor-pointer hover:bg-green-200 hover:text-green-700"
         (click)="editarItem(itens)">
         <i class="material-symbols-outlined text-[18px]">edit</i>
         Editar
