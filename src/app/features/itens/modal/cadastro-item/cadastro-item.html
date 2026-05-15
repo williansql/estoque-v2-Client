@@ -1,4 +1,4 @@
-<div class="flex flex-col space-y-0 sm:p-6">
+<div class="flex flex-col space-y-0 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
   <!-- CABEÇALHO -->
   <div class="p-4">
     <h1 class="font-sans font-semibold text-lg sm:text-xl tracking-wider text-slate-800">
@@ -21,7 +21,7 @@
               Nome do Item
             </label>
             <input z-input type="text" id="name" placeholder="Ex: Leite Integral" formControlName="name"
-              class="w-full text-sm placeholder:text-xs" />
+              class="w-full text-sm placeholder:text-xs transition-all duration-200 focus:scale-[1.01]" />
             @if (itemForm.get('name')?.invalid && (itemForm.get('name')?.touched ||
             itemForm.get('name')?.dirty)) {
             <div class="mt-0">
@@ -38,8 +38,46 @@
             <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block" for="category">
               Categoria
             </label>
-            <input z-input type="text" id="category" placeholder="Ex: Alimentício" formControlName="category"
-              class="w-full text-sm placeholder:text-xs" />
+
+            <div class="relative w-full" #categoryContainer>
+
+              <input z-input type="text" id="category" placeholder="Selecione uma categoria" formControlName="category"
+                autocomplete="off" class="w-full text-sm placeholder:text-xs transition-all duration-300 ease-out
+           focus:ring-2 focus:ring-slate-200 focus:shadow-md
+           focus:scale-[1.01]" (input)="onSearchCategory($event)" (focus)="onFocusCategory()" />
+
+              @if (showCategories && filteredCategories.length > 0) {
+
+              <div class="absolute left-0 top-full z-50 mt-2 w-full overflow-hidden
+                rounded-xl border border-slate-200 bg-white shadow-2xl
+                backdrop-blur-sm
+                animate-in fade-in zoom-in-95 slide-in-from-top-2
+                duration-200">
+
+                <div class="max-h-60 overflow-auto py-1">
+
+                  @for (category of filteredCategories; track category.id) {
+
+                  <button type="button" class="group flex w-full cursor-pointer items-center
+                   px-3 py-2.5 text-left text-sm text-slate-700
+                   transition-all duration-200 ease-out
+                   hover:bg-slate-50 hover:pl-4
+                   active:scale-[0.98]
+                   border-b border-slate-100 last:border-0" (mousedown)="selectCategory(category)">
+
+                    <div class="mr-2 h-2 w-2 rounded-full bg-slate-300
+                     transition-all duration-200
+                     group-hover:bg-slate-500"></div>
+
+                    <span class="truncate">
+                      {{ category.name }}
+                    </span>
+                  </button>
+                  }
+                </div>
+              </div>
+              }
+            </div>
             @if (itemForm.get('category')?.invalid && (itemForm.get('category')?.touched ||
             itemForm.get('category')?.dirty)) {
             <div class="mt-0">
@@ -88,7 +126,7 @@
               Código de Barras
             </label>
             <input z-input type="text" id="barcode" placeholder="Ex: 7891234567890" formControlName="barcode"
-              class="w-full text-sm placeholder:text-xs" />
+              class="w-full text-sm placeholder:text-xs transition-all duration-200 focus:scale-[1.01]" />
             @if (itemForm.get('barcode')?.invalid && (itemForm.get('barcode')?.touched ||
             itemForm.get('barcode')?.dirty)) {
             <div class="mt-0">
@@ -104,7 +142,7 @@
               Quantidade Mínima (Estoque)
             </label>
             <input z-input type="number" id="minQuantity" placeholder="Ex: 5" formControlName="minQuantity"
-              class="w-full text-sm placeholder:text-xs" />
+              class="w-full text-sm placeholder:text-xs transition-all duration-200 focus:scale-[1.01]" />
             @if (itemForm.get('minQuantity')?.invalid && (itemForm.get('minQuantity')?.touched ||
             itemForm.get('minQuantity')?.dirty)) {
             <div class="mt-0">
@@ -123,7 +161,7 @@
 
         <!-- LINHA 4: Observações + Preço de Compra -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <z-form-field class="flex flex-col w-full">
+          <z-form-field class="flex flex-col w-full gap-0">
             <label class="text-xs font-medium text-slate-600 mb-1 block" for="observations">
               Observações
             </label>
@@ -131,50 +169,83 @@
               formControlName="observations" class="w-full text-sm placeholder:text-xs" />
           </z-form-field>
 
-          <z-form-field class="flex flex-col w-full">
+          <z-form-field class="flex flex-col w-full gap-0">
             <label class="text-xs font-medium text-slate-600 mb-1 block" for="buyPrice">
-              Preço de Compra
+              Valor de Compra
             </label>
             <input z-input type="number" id="buyPrice" placeholder="0,00" step="0.01" formControlName="buyPrice"
               class="w-full text-sm placeholder:text-xs" />
           </z-form-field>
         </div>
 
-        <!-- LINHA 5: Preço de Venda + Unidade de Medida -->
+        <!-- LINHA 5: Unidade de medida + Quantidade por unidade -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-          <z-form-field class="flex flex-col w-full">
-            <label class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureEnum">
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureEnum">
               Unidade de Medida
             </label>
             <z-select z-input id="unitMeasureEnum" formControlName="unitMeasureEnum" class="w-full text-sm">
               <z-select-item zValue="">Selecione...</z-select-item>
-              <z-select-item zValue="UN">Unidade</z-select-item>
-              <z-select-item zValue="KG">Quilograma</z-select-item>
-              <z-select-item zValue="L">Litro</z-select-item>
-              <z-select-item zValue="M">Metro</z-select-item>
-              <z-select-item zValue="CX">Caixa</z-select-item>
+              <z-select-item zValue="AMPOLA">Ampola</z-select-item>
+              <z-select-item zValue="BARRIL">Barril</z-select-item>
+              <z-select-item zValue="BISNAGA">Bisnaga</z-select-item>
+              <z-select-item zValue="CAPSULA">Capsula</z-select-item>
+              <z-select-item zValue="CAIXA">Caixa</z-select-item>
+              <z-select-item zValue="CENTIMETRO">Centímetro</z-select-item>
+              <z-select-item zValue="CESTA">Cesta</z-select-item>
+              <z-select-item zValue="COMPRIMIDO">Comprimido</z-select-item>
+              <z-select-item zValue="DUZIA">Dúzia</z-select-item>
+              <z-select-item zValue="FRASCO">Frasco</z-select-item>
+              <z-select-item zValue="FRASCO_AMPOLA">Frasco-Ampola</z-select-item>
+              <z-select-item zValue="GALAO">Galão</z-select-item>
+              <z-select-item zValue="GOTA">Gota</z-select-item>
+              <z-select-item zValue="GRAMAS">Gramas</z-select-item>
+              <z-select-item zValue="KILOGRAMAS">Kilogramas</z-select-item>
+              <z-select-item zValue="LATA">Lata</z-select-item>
+              <z-select-item zValue="LITRO">Litro</z-select-item>
+              <z-select-item zValue="METRO">Metro</z-select-item>
+              <z-select-item zValue="MILIGRAMAS">Miligramas</z-select-item>
+              <z-select-item zValue="MILILITRO">Mililitro</z-select-item>
+              <z-select-item zValue="PACOTE">Pacote</z-select-item>
+              <z-select-item zValue="PAR">Par</z-select-item>
+              <z-select-item zValue="UNIDADE">Unidade</z-select-item>
             </z-select>
+            @if (itemForm.get('unitMeasureEnum')?.invalid && (itemForm.get('unitMeasureEnum')?.touched ||
+            itemForm.get('unitMeasureEnum')?.dirty)) {
+            <div class="mt-0">
+              @if (itemForm.get('unitMeasureEnum')?.hasError('required')) {
+              <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+              }
+            </div>
+            }
           </z-form-field>
-          <z-form-field class="flex flex-col w-full">
-            <label class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureQtd">
+
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block" for="unitMeasureQtd">
               Quantidade por Unidade
             </label>
             <input z-input type="number" id="unitMeasureQtd" placeholder="Ex: 12" step="1"
               formControlName="unitMeasureQtd" class="w-full text-sm placeholder:text-xs" />
+            @if (itemForm.get('unitMeasureQtd')?.invalid && (itemForm.get('unitMeasureQtd')?.touched ||
+            itemForm.get('unitMeasureQtd')?.dirty)) {
+            <div class="mt-0">
+              @if (itemForm.get('unitMeasureQtd')?.hasError('required')) {
+              <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+              }
+              @if (itemForm.get('unitMeasureQtd')?.hasError('min')) {
+              <span class="text-red-600 text-[10px] sm:text-xs">O valor mínimo é 1</span>
+              }
+            </div>
+            }
           </z-form-field>
         </div>
 
-        <!-- LINHA 6: Quantidade por Unidade + Quantidade Mínima -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-        </div>
+        <!-- LINHA 7: Tipo do item, Catmat e Perecível -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
-        <!-- LINHA 7: Categoria + Tipo do Item -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-
-          <z-form-field class="flex flex-col w-full">
+          <z-form-field class="flex flex-col w-full gap-0">
             <label class="text-xs font-medium text-slate-600 mb-1 block" for="typeItem">
               Tipo do Item
             </label>
@@ -184,53 +255,34 @@
               <z-select-item zValue="SERVICO">Serviço</z-select-item>
               <z-select-item zValue="INSUMO">Insumo</z-select-item>
             </z-select>
-            @if (itemForm.get('typeItem')?.invalid && (itemForm.get('typeItem')?.touched ||
-            itemForm.get('typeItem')?.dirty)) {
-            <div class="mt-0">
-              @if (itemForm.get('typeItem')?.hasError('required')) {
-              <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
-              }
-            </div>
-            }
           </z-form-field>
-        </div>
 
-        <!-- LINHA 8: Perecível + CATMAT -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <z-form-field class="flex flex-row items-center gap-3 w-full">
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="catmat">
+              CATMAT
+            </label>
+            <input z-input type="text" id="catmat" placeholder="Ex: 12345" formControlName="catmat"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+
+          <z-form-field class="flex flex-row items-center mt-4.5 gap-2 w-full select-none">
             <input type="checkbox" id="perecivel" formControlName="perecivel"
               class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
             <label class="text-xs font-medium text-slate-600" for="perecivel">
               Perecível
             </label>
           </z-form-field>
-
-          <z-form-field class="flex flex-col w-full">
-            <label class="text-xs font-medium text-slate-600 mb-1 block" for="catmat">
-              CATMAT
-            </label>
-            <input z-input type="text" id="catmat" placeholder="Ex: 12345" formControlName="catmat"
-              class="w-full text-sm placeholder:text-xs" />
-            @if (itemForm.get('catmat')?.invalid && (itemForm.get('catmat')?.touched ||
-            itemForm.get('catmat')?.dirty)) {
-            <div class="mt-0">
-              @if (itemForm.get('catmat')?.hasError('required')) {
-              <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
-              }
-            </div>
-            }
-          </z-form-field>
         </div>
-
-        <!-- LINHA 9: ID do Catálogo + Organograma -->
 
         <!-- BOTÕES -->
         <div class="flex flex-col sm:flex-row w-full gap-3 mt-6">
-          <z-button zSize="sm" type="submit" class="w-full sm:flex-1 cursor-pointer" (click)="onSubmit()">
+          <z-button zSize="sm" type="submit"
+            class="w-full sm:flex-1 cursor-pointer transition-all duration-200 active:scale-95 shadow-md hover:shadow-lg"
+            (click)="onSubmit()">
             Salvar
           </z-button>
-          <z-button zSize="sm" type="button" zType="outline" class="w-full sm:flex-1 cursor-pointer"
-            (click)="onClose()">
+          <z-button zSize="sm" type="button" zType="outline"
+            class="w-full sm:flex-1 cursor-pointer transition-all duration-200 active:scale-95" (click)="onClose()">
             Cancelar
           </z-button>
         </div>

@@ -27,11 +27,11 @@ export class EditarCategoriaComponent {
     validarCategoria = (field: string) => this.categoriaForm.get(field);
 
     categoriaForm = this.fb.group({
-        nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+        name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
     });
 
     ngOnInit() {
-        this.categoriaForm.get('nome')?.setValue(this.data()?.nome ?? '');
+        this.categoriaForm.get('name')?.setValue(this.data()?.name ?? '');
     }
 
     onClose() {
