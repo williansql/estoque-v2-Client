@@ -22,7 +22,7 @@ import { ModalRef } from './modal-ref';
         [style.maxHeight]="height">
         
         <!-- Content Container -->
-        <div class="flex-1 overflow-y-auto p-1 scrollbar-thin">
+        <div class="flex-1 overflow-y-auto p-1 scrollbar-thin rounded-2xl">
            <ng-container #contentHost></ng-container>
         </div>
       </div>
@@ -36,7 +36,7 @@ import { ModalRef } from './modal-ref';
 })
 export class ModalContainerComponent {
   @ViewChild('contentHost', { read: ViewContainerRef, static: true }) contentHost!: ViewContainerRef;
-  
+
   modalRef = inject(ModalRef);
   width?: string;
   height?: string;

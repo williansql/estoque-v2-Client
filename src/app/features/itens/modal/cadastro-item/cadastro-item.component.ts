@@ -68,6 +68,10 @@ export class CadastroItensComponent implements OnInit {
         catmat: [''],
     });
 
+    // =======================================================================
+    // CICLOS DE VIDA
+    // =======================================================================
+
     ngOnInit() {
         const token = this.authService.getToken();
         if (token) {
@@ -77,9 +81,17 @@ export class CadastroItensComponent implements OnInit {
         this.getCategory();
     }
 
+    // =======================================================================
+    // AÇÕES DO MODAL
+    // =======================================================================
+
     onClose() {
         this.modalService.close();
     }
+
+    // =======================================================================
+    // SUBMIT DO FORMULÁRIO
+    // =======================================================================
 
     onSubmit() {
         if (this.itemForm.invalid) {
@@ -106,6 +118,10 @@ export class CadastroItensComponent implements OnInit {
         });
     }
 
+    // =======================================================================
+    // FUNÇÕES DE SCROLL
+    // =======================================================================
+
     private scrollToFirstInvalidControl() {
         const firstInvalidControl: HTMLElement =
             this.el.nativeElement.querySelector('.ng-invalid:not(form)');
@@ -121,6 +137,10 @@ export class CadastroItensComponent implements OnInit {
             }
         }
     }
+
+    // =======================================================================
+    // CATEGORIAS
+    // =======================================================================
 
     getCategory() {
         const data = {
@@ -175,5 +195,13 @@ export class CadastroItensComponent implements OnInit {
         this.showCategories = false;
     }
 
+
+    // =======================================================================
+    // TIPO DE ITEM
+    // =======================================================================
+
+    getTypeItem() {
+
+    }
 
 }

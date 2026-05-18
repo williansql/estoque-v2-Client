@@ -19,6 +19,12 @@ export const routes: Routes = [
       import('./features/categorias/categoria.route').then((m) => m.CATEGORIA_ROUTES),
   },
   {
+    path: 'tipo-itens',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/tipo-item/tipo-item.route').then((m) => m.TIPOS_ITEM_ROUTES),
+  },
+  {
     path: 'itens',
     canActivate: [authGuard],
     loadChildren: () => import('./features/itens/itens.route').then((m) => m.ITENS_ROUTES),

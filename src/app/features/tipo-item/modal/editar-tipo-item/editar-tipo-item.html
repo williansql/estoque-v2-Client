@@ -1,0 +1,49 @@
+<div class="flex flex-col gap-4 p-4 sm:p-6">
+    <!-- CABEÇALHO -->
+    <div>
+        <h1 class="font-sans font-semibold text-lg sm:text-xl tracking-wider text-slate-800">
+            {{ tipoItemForm.get('id')?.value ? 'Editar' : 'Cadastrar' }} tipo de item
+        </h1>
+    </div>
+
+    <z-card class="shadow-none sm:shadow-sm border-0 sm:border">
+        <!-- FORMULÁRIO DE EDITAR TIPO DE ITEM -->
+        <form [formGroup]="tipoItemForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <div class="flex flex-col gap-4">
+                <z-form-field class="w-full">
+                    <label class="text-xs font-medium text-slate-600 mb-1 block" for="nome-tipo-item">
+                        Nome do Tipo de Item
+                    </label>
+                    <input z-input type="text" id="nome-tipo-item" placeholder="Ex: Psicotrópicos, Insumos..."
+                        formControlName="name" class="w-full placeholder:text-xs text-sm" />
+
+                    @if (tipoItemForm.get('name')?.invalid && (tipoItemForm.get('name')?.touched ||
+                    tipoItemForm.get('name')?.dirty)) {
+                    <div class="mt-1">
+                        @if (tipoItemForm.get('name')?.hasError('required')) {
+                        <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+                        }
+                        @if (tipoItemForm.get('name')?.hasError('minlength')) {
+                        <span class="text-red-600 text-[10px] sm:text-xs">Mínimo de 3 caracteres</span>
+                        }
+                        @if (tipoItemForm.get('name')?.hasError('maxlength')) {
+                        <span class="text-red-600 text-[10px] sm:text-xs">Máximo de 100 caracteres</span>
+                        }
+                    </div>
+                    }
+                </z-form-field>
+
+                <!-- BOTÕES -->
+                <div class="flex flex-col sm:flex-row w-full gap-3 mt-2">
+                    <z-button zSize="sm" type="submit" class="w-full sm:flex-1 cursor-pointer">
+                        Salvar
+                    </z-button>
+                    <z-button zSize="sm" type="button" zType="outline" class="w-full sm:flex-1 cursor-pointer"
+                        (click)="onClose()">
+                        Cancelar
+                    </z-button>
+                </div>
+            </div>
+        </form>
+    </z-card>
+</div>
