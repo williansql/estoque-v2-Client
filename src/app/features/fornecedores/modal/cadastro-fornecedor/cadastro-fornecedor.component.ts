@@ -40,7 +40,6 @@ export class CadastroFornecedorComponent implements OnInit {
   public readonly data = inject<FornecedorDTO | null>(MODAL_DATA);
 
   fornecedorForm = this.fb.group({
-    id: [null as number | null],
     name: ['', [Validators.required, Validators.minLength(3)]],
     fantasyName: [''],
     identity: ['', [Validators.required]],
@@ -122,7 +121,7 @@ export class CadastroFornecedorComponent implements OnInit {
 
     if (this.data?.id) {
       // Update
-      this.fornecedorService.atualizarFornecedor(dto).subscribe({
+      this.fornecedorService.atualizarFornecedor(this.data.id, dto).subscribe({
         next: () => {
           toast.success(`Fornecedor ${dto.name} atualizado com sucesso!`);
           this.fornecedorService.refresh();

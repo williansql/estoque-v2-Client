@@ -45,8 +45,8 @@ export class FornecedorService {
         return this.http.post<ApiResponse<FornecedorDTO>>(this.endpoints.criar, data);
     }
 
-    atualizarFornecedor(data: FornecedorDTO): Observable<ApiResponse<FornecedorDTO>> {
-        return this.http.put<ApiResponse<FornecedorDTO>>(this.endpoints.atualizar(data.id!), data);
+    atualizarFornecedor(id: number, data: FornecedorDTO): Observable<ApiResponse<FornecedorDTO>> {
+        return this.http.put<ApiResponse<FornecedorDTO>>(this.endpoints.atualizar(id!), data);
     }
 
     deletarFornecedor(id: number): Observable<ApiResponse<FornecedorDTO>> {
