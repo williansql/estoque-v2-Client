@@ -19,7 +19,6 @@ export class App {
   protected readonly title = signal('estoque-v2');
 
   readonly authService = inject(AuthService);
-
-  isLoggedIn = computed(() => this.authService.isLoggedIn());
+  isLoggedIn = this.authService.isLoggedInSignal;
 
 }

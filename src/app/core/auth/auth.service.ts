@@ -13,7 +13,6 @@ export class AuthService {
     private readonly API = environment.api + '/auth';
     private readonly router = inject(Router);
 
-    // Signal to track auth state reactively
     private readonly _isLoggedIn = signal<boolean>(this.getToken() !== null);
     readonly isLoggedInSignal = this._isLoggedIn.asReadonly();
 
@@ -38,7 +37,21 @@ export class AuthService {
     }
 
     getToken(): string | null {
-        return sessionStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            return null;
+        }
+        const decoded: any = this.decodeToken();
+        if (!decoded?.exp) {
+            this.removeToken();
+            return null;
+        }
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (decoded.exp < currentTime) {
+            this.removeToken();
+            return null;
+        }
+        return token;
     }
 
     removeToken(): void {
@@ -47,13 +60,19 @@ export class AuthService {
     }
 
     decodeToken() {
-        const token = this.getToken();
-        if (!token) return null;
-        return jwtDecode(token);
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            return null;
+        }
+        try {
+            return jwtDecode(token);
+        } catch {
+            return null;
+        }
     }
 
     isLoggedIn(): boolean {
-        return this._isLoggedIn();
+        return this.getToken() !== null;
     }
 
     logout(): void {
