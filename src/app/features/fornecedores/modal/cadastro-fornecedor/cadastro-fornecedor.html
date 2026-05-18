@@ -1,0 +1,168 @@
+<div
+  class="flex flex-col space-y-0 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 max-h-[90vh] overflow-y-auto overflow-x-hidden">
+  <!-- CABEÇALHO -->
+  <div class="p-4">
+    <h1 class="font-sans font-semibold text-lg sm:text-xl tracking-wider text-slate-800">
+      {{ data?.id ? 'Editar' : 'Cadastrar' }} Fornecedor
+    </h1>
+  </div>
+
+  <z-card class="shadow-none sm:shadow-sm border-0 sm:border">
+    <!-- FORMULÁRIO -->
+    <form [formGroup]="fornecedorForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div class="flex flex-col">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+          <!-- Nome / Razão Social -->
+          <z-form-field class="flex flex-col w-full gap-0 ">
+            <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block" for="name">
+              Razão Social / Nome Completo
+            </label>
+            <input z-input type="text" id="name" placeholder="Ex: Fornecedor LTDA" formControlName="name"
+              class="w-full text-sm placeholder:text-xs" />
+            @if (isFieldInvalid('name')) {
+            <div class="mt-0">
+              <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório (mín. 3 caracteres)</span>
+            </div>
+            }
+          </z-form-field>
+
+          <!-- Nome Fantasia -->
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="fantasyName">
+              Nome Fantasia
+            </label>
+            <input z-input type="text" id="fantasyName" placeholder="Ex: Nome Fantasia" formControlName="fantasyName"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+          <!-- Documento -->
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block" for="identity">
+              Documento (CNPJ/CPF)
+            </label>
+            <input z-input type="text" id="identity" placeholder="Somente números" formControlName="identity"
+              class="w-full text-sm placeholder:text-xs" />
+            @if (isFieldInvalid('identity')) {
+            <div class="mt-0">
+              <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+            </div>
+            }
+          </z-form-field>
+
+          <!-- Tipo Pessoa -->
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label z-form-label zRequired class="text-xs font-medium text-slate-600 mb-1 block" for="type">
+              Tipo
+            </label>
+            <z-form-control class="w-full text-sm placeholder:text-xs">
+              <z-select class="w-full" z-select zPlaceholder="Selecione o fornecedor" formControlName="type" id="type">
+                <z-select-item zValue="">Selecione</z-select-item>
+                <z-select-item zValue="J">Pessoa Jurídica</z-select-item>
+                <z-select-item zValue="F">Pessoa Física</z-select-item>
+              </z-select>
+            </z-form-control>
+            @if (isFieldInvalid('type')) {
+            <div class="mt-0">
+              <span class="text-red-600 text-[10px] sm:text-xs">Campo obrigatório</span>
+            </div>
+            }
+          </z-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+          <!-- Email -->
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="email">
+              E-mail
+            </label>
+            <input z-input type="email" id="email" placeholder="contato@empresa.com" formControlName="email"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+
+          <!-- Telefone -->
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="phone">
+              Telefone
+            </label>
+            <input z-input type="text" id="phone" placeholder="(00) 00000-0000" formControlName="phone"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+          <!-- CEP -->
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="zipCode">
+              CEP
+            </label>
+            <input z-input type="text" id="zipCode" placeholder="00000-000" maxlength="9" formControlName="zipCode"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+
+          <!-- Endereço -->
+          <z-form-field class="flex flex-col w-full md:col-span-2 gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="publicPlace">
+              Logradouro (Rua, Av.)
+            </label>
+            <input z-input type="text" id="publicPlace" placeholder="Rua Exemplo" formControlName="publicPlace"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+          <!-- Número -->
+          <z-form-field class="flex flex-col w-full gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="number">
+              Número
+            </label>
+            <input z-input type="text" id="number" placeholder="123" formControlName="number"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+
+          <!-- Bairro -->
+          <z-form-field class="flex flex-col w-full md:col-span-1 gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="district">
+              Bairro
+            </label>
+            <input z-input type="text" id="district" placeholder="Bairro" formControlName="district"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+
+          <!-- Cidade -->
+          <z-form-field class="flex flex-col w-full md:col-span-1 gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="city">
+              Cidade
+            </label>
+            <input z-input type="text" id="city" placeholder="Cidade" formControlName="city"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+
+          <!-- Estado -->
+          <z-form-field class="flex flex-col w-full md:col-span-1 gap-0">
+            <label class="text-xs font-medium text-slate-600 mb-1 block" for="state">
+              UF
+            </label>
+            <input z-input type="text" id="state" placeholder="SP" maxlength="2" formControlName="state"
+              class="w-full text-sm placeholder:text-xs" />
+          </z-form-field>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="flex flex-col sm:flex-row w-full gap-3 mt-6">
+          <z-button zSize="sm" type="submit"
+            class="w-full sm:flex-1 cursor-pointer transition-all duration-200 active:scale-95 shadow-md hover:shadow-lg"
+            (click)="onSubmit()">
+            Salvar
+          </z-button>
+          <z-button zSize="sm" type="button" zType="outline"
+            class="w-full sm:flex-1 cursor-pointer transition-all duration-200 active:scale-95" (click)="onClose()">
+            Cancelar
+          </z-button>
+        </div>
+      </div>
+    </form>
+  </z-card>
+</div>

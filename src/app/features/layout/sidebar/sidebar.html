@@ -90,18 +90,18 @@
         </a>
       </li>
 
-      <!-- Fornecedor -->
+      <!-- Fornecedores -->
       <li class="hover:cursor-pointer">
-        <a routerLink="/fornecedor" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
-          #rlaFornecedor="routerLinkActive" (click)="onMenuClick()"
+        <a routerLink="/fornecedores" routerLinkActive="bg-white/10 text-white shadow-sm ring-1 ring-white/5"
+          #rlaFornecedores="routerLinkActive" (click)="onMenuClick()"
           class="flex items-center gap-3 px-3 py-2.5 rounded-lg border-l-2 border-transparent transition-all hover:bg-white/5 hover:text-white group relative min-w-max">
-          <div [class.bg-green-500]="rlaFornecedor.isActive"
+          <div [class.bg-green-500]="rlaFornecedores.isActive"
             class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-5 rounded-r-full transition-all duration-300"
-            [class.h-5]="rlaFornecedor.isActive"></div>
-          <mat-icon [class.text-green-400]="rlaFornecedor.isActive"
+            [class.h-5]="rlaFornecedores.isActive"></div>
+          <mat-icon [class.text-green-400]="rlaFornecedores.isActive"
             class="text-[20px] w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity">local_shipping</mat-icon>
           @if (!layoutService.isSidebarCollapsed()) {
-          <span class="font-medium text-[14px] transition-opacity duration-300">Fornecedor</span>
+          <span class="font-medium text-[14px] transition-opacity duration-300">Fornecedores</span>
           }
         </a>
       </li>

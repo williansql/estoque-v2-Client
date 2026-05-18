@@ -30,6 +30,12 @@ export const routes: Routes = [
     loadChildren: () => import('./features/itens/itens.route').then((m) => m.ITENS_ROUTES),
   },
   {
+    path: 'fornecedores',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/fornecedores/fornecedor.route').then((m) => m.FORNECEDORES_ROUTES),
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },

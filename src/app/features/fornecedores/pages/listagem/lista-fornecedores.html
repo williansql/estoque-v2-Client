@@ -1,0 +1,142 @@
+<div class="flex flex-col gap-6">
+  <!-- HEADER -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-800">Fornecedores</h2>
+      <p class="text-slate-500 text-sm">Gerencie os fornecedores e parceiros de negócio.</p>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+      <z-button (click)="openModal()" class="hidden sm:flex cursor-pointer hover:opacity-80 transition-colors">
+        Adicionar Fornecedor
+      </z-button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="w-full">
+    @if (listFornecedores().length > 0) {
+    <!-- DESKTOP TABLE VIEW -->
+    <div class="hidden sm:block">
+      <z-card>
+        <div class="overflow-hidden">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50/50">
+                <th class="p-4 font-semibold text-slate-800 w-2/6">Nome / Razão Social</th>
+                <th class="p-4 font-semibold text-slate-800 w-2/6">Documento</th>
+                <th class="p-4 font-semibold text-slate-800 w-1/6">E-mail</th>
+                <th class="p-4 font-semibold text-slate-700 text-right w-1/6">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              @for (fornecedor of listFornecedores(); track fornecedor.id) {
+              <tr class="hover:bg-slate-50/80 transition-colors group">
+                <td class="p-4 text-slate-600 font-normal">
+                  <div class="flex items-center gap-3">
+                    <span class="truncate">{{ fornecedor.name }}</span>
+                  </div>
+                </td>
+                <td class="p-4 text-slate-600 font-normal">
+                  <span class="truncate">{{ fornecedor.identity }}</span>
+                </td>
+                <td class="p-4 text-slate-600 font-normal">
+                  <span class="truncate">{{ fornecedor.email || '-' }}</span>
+                </td>
+                <td class="p-4">
+                  <div class="flex gap-2 justify-end">
+                    <z-button zSize="sm" zType="secondary"
+                      class="cursor-pointer opacity-80 hover:text-white hover:bg-[#13325b/70]"
+                      (click)="openModal(fornecedor)">
+                      Editar
+                    </z-button>
+                    <z-button zSize="sm" zType="destructive"
+                      class="cursor-pointer opacity-80 hover:opacity-100 hover:text-red-600 hover:border-red-200"
+                      (click)="deleteFornecedor(fornecedor)">
+                      Excluir
+                    </z-button>
+                  </div>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="p-4 border-t border-slate-100 flex justify-center justify-self-center gap-4 sm:justify-end">
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-slate-500 whitespace-nowrap">Itens por página:</span>
+            <input type="number" [ngModel]="pageSize()"
+              (ngModelChange)="pageSize.set($event); pageIndex.set(1); getAllFornecedores()"
+              class="w-16 px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-400" />
+          </div>
+          <z-pagination [zPageIndex]="pageIndex()" [zTotal]="totalPages()"
+            (zPageIndexChange)="pageIndex.set($event); getAllFornecedores()" />
+        </div>
+      </z-card>
+    </div>
+
+    <!-- MOBILE CARD VIEW -->
+    <div class="flex flex-col gap-3 sm:hidden">
+      @for (fornecedor of listFornecedores(); track fornecedor.id) {
+      <z-card class="p-4">
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <z-avatar [zFallback]="getInitials(fornecedor.name!)" class="w-10 h-10"></z-avatar>
+            <div class="flex flex-col overflow-hidden">
+              <span class="text-slate-800 font-semibold text-sm truncate">{{ fornecedor.name }}</span>
+              <div class="flex items-end-safe justify-start gap-0.5 m-0 p-0">
+                @if(fornecedor.identity){
+                <i class="material-symbols-outlined !text-sm">docs</i>
+                } @else {
+                <i class="!text-sm">-</i>
+                }
+                <span class="text-slate-500 text-xs">{{ fornecedor.identity }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="border-t pt-[10px] border-slate-200 flex gap-2">
+            <z-button zSize="sm" zType="secondary" class="flex-1 cursor-pointer" (click)="openModal(fornecedor)">
+              Editar
+            </z-button>
+            <z-button zSize="sm" zType="destructive"
+              class="flex-1 cursor-pointer hover:text-red-600 hover:border-red-200"
+              (click)="deleteFornecedor(fornecedor)">
+              Excluir
+            </z-button>
+          </div>
+        </div>
+      </z-card>
+      }
+      <div class="mt-4 flex flex-col sm:flex-row justify-center justify-self-center gap-4">
+        <z-pagination [zPageIndex]="pageIndex()" [zTotal]="totalPages()"
+          (zPageIndexChange)="pageIndex.set($event); getAllFornecedores()" />
+        <div class="flex items-center justify-center gap-2">
+          <span class="text-sm text-slate-500 whitespace-nowrap">Itens por página:</span>
+          <input type="number" [ngModel]="pageSize()"
+            (ngModelChange)="pageSize.set($event); pageIndex.set(1); getAllFornecedores()"
+            class="w-16 px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-400" />
+        </div>
+
+        <z-button (click)="openModal()" zShape="circle"
+          class="fixed z-50 bottom-8 right-8 !w-12 !h-12 shadow-[0_10px_25px_-5px_rgba(19,50,91,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 bg-[#13325b] text-white border-none group">
+          <i
+            class="material-symbols-outlined !text-[36px] transition-transform duration-500 group-hover:rotate-90">add</i>
+          <span
+            class="absolute right-full mr-4 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
+            Adicionar Novo Fornecedor
+          </span>
+        </z-button>
+      </div>
+    </div>
+    } @else {
+    <!-- EMPTY STATE -->
+    <z-card>
+      <div class="p-12 text-center">
+        <div class="flex flex-col items-center gap-2 text-slate-400">
+          <p class="text-lg font-medium">Nenhum fornecedor encontrado</p>
+          <p class="text-sm">Clique em "Adicionar Fornecedor" para começar.</p>
+        </div>
+      </div>
+    </z-card>
+    }
+  </div>
+</div>
